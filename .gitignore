@@ -1,0 +1,28 @@
+﻿# Rust / Cargo
+target/
+**/*.rs.bk
+
+# IDE / editor
+.vscode/
+.idea/
+*.iml
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Night Core outputs
+logs/
+modules/*/sandbox/
+
+# Binaries
+*.exe
+*.dll
+*.pdb
+*.lib
+*.exp
+
+# Optional: keep module artifacts out if you rebuild them
+# modules/*/module.wasm
+# modules/*/module.sig
+

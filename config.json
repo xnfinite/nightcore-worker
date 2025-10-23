@@ -1,0 +1,7 @@
+{
+  "inbox": "C:\\Users\\gabeg\\rebalance_inbox",
+  "outbox": "C:\\Users\\gabeg\\rebalance_outbox",
+  "public_key": "C:\\Users\\gabeg\\source\\repos\\worker\\public.pem",
+  "wasmtime": "C:\\Users\\gabeg\\.cargo\\bin\\wasmtime.exe"
+}
+

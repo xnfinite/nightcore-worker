@@ -1,0 +1,31 @@
+[package]
+name = "worker"
+version = "0.1.0"
+edition = "2021"
+authors = ["B106"]
+description = "Night Core v37 — Secure Multi-Tenant WASM Runner (WASI P1)"
+license = "MIT"
+
+[dependencies]
+anyhow = "1.0"
+base64 = "0.22"
+clap = { version = "4.5", features = ["derive"] }
+ed25519-dalek = { version = "2.1", features = ["rand_core"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sha2 = "0.10"
+tokio = { version = "1.36", features = ["full"] }
+wasmtime = "37"
+wasmtime-wasi = "37"
+chrono = "0.4"
+open = "5.3"
+
+[profile.dev]
+opt-level = 1
+debug = true
+incremental = true
+
+[profile.release]
+opt-level = 3
+lto = true
+strip = "symbols"

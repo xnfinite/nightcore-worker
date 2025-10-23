@@ -1,0 +1,8 @@
+﻿{
+  "name": "example_module",
+  "version": "1.0.0",
+  "description": "Hello tenant A module",
+  "permissions": ["stdout", "fs:read"],
+  "fuel_limit": 50000,
+  "timeout_ms": 3000
+}

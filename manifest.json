@@ -1,0 +1,8 @@
+﻿{
+  "name": "math_module",
+  "version": "1.0.0",
+  "description": "Performs simple math inside WASM",
+  "permissions": ["stdout"],
+  "fuel_limit": 50000,
+  "timeout_ms": 3000
+}
