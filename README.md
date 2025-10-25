@@ -50,11 +50,11 @@ nightcore dashboard --open
 ---
 
 ## 📚 Documentation
-- **ROADMAP.md** — Long-term development path  
-- **AUFS Overview** — Upgrade & proof system  
-- **Threat Model** — Security design  
-- **Governance** — Contributor & maintainer policy  
-- **Cold Storage** — Secure key and manifest handling  
+- [**ROADMAP.md**](docs/ROADMAP.md) — Long-term development path  
+- [**AUFS Overview**](docs/AUFS.md) — Upgrade & proof system  
+- [**Threat Model**](docs/Threat_Model.md) — Security design  
+- [**Governance**](docs/Governance.md) — Contributor & maintainer policy  
+- [**Cold Storage**](docs/Cold_Storage.md) — Secure key and manifest handling  
 
 ---
 
@@ -101,28 +101,9 @@ Night Core is designed for native deployment on **AWS Cloud** infrastructure:
 
 ---
 
-## 📈 Profit & Launch Timeline
-| Phase | Period | Goal | Revenue Range |
-|:--|:--|:--|:--|
-| Phase 0 — 2025 Q4 | Brand setup & GitHub launch | Foundation + community | — |
-| Phase 1 — 2026 H1 | AUFS Enterprise launch (AWS Marketplace) | Trust monetization | $50K–$150K |
-| Phase 2 — 2026 H2 | Guardian prototype + OEM licensing | Pioneer layer | $250K–$1M |
-| Phase 3 — 2027 H1–H2 | Night Mesh + B106 Pro CLI SaaS | Recurring revenue | $100K–$250K |
-| Phase 4 — 2027–2028 | Vesper AI Assistant (SaaS API) | Compliance automation | $300K–$700K |
-| Phase 5 — 2028+ | AWS / Robotics integration & licensing | Expansion / acquisition | $1M–$6M+ |
-
-**Profit Model Summary**
-- Open-core MIT → Developer adoption + community growth  
-- AUFS Enterprise → Paid trust & compliance  
-- Guardian OEM → Robotics / AI safety licensing  
-- B106 Pro CLI → SaaS subscription model  
-- Vesper API → Enterprise compliance & intelligence  
-
----
-
 ## 🤝 Contributing
 Contributions are welcome!   
-See **Governance** and **AUFS Overview** for workflow and signing policies.
+See [**Governance**](docs/Governance.md) and [**AUFS Overview**](docs/AUFS.md) for workflow and signing policies.
 
 ---
 
