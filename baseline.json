@@ -1,0 +1,11 @@
+{
+  "version": "v37-B106-Stable",
+  "runtime": "Wasmtime 37 + WASI P1",
+  "verification": "Ed25519 + SHA256",
+  "architecture": "Multi-Tenant Orchestration",
+  "aufs": "Autonomous Upgrade & Fork System",
+  "vision": "Self-healing, provable, autonomous compute standard",
+  "license": "MIT Open Core",
+  "maintainer": "Gabriel Ginn",
+  "brand": "B106 Edition"
+}
