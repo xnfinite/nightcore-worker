@@ -1,10 +1,6 @@
 
 
-<p align="center">
-
-&nbsp; <img src="https://raw.githubusercontent.com/gabeg-source/worker/main/assets/nightcore\_logo\_tm.png" alt="Night Core™ Logo" width="280"/>
-
-</p>
+<p align='center'><img src='../assets/nightcore\_logo\_tm.png' alt='Night Core Logo' width='280'/></p>
 
 
 
