@@ -33,6 +33,16 @@ min_approvals = 2
 rollback_allowed = true
 audit_chain = true
 
+[nightmesh]
+# Distributed Proof & Audit Synchronization
+enabled = false
+sync_interval_seconds = 30
+max_peers = 8
+proof_mode = "incremental"
+gossip_channel = "mesh"
+encryption = "aes256-gcm"
+trusted_nodes = ["node1.example.net", "node2.example.net"]
+
 [dashboard]
 # UI and reporting configuration
 auto_open = false
