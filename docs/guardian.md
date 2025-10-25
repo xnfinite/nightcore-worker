@@ -1,4 +1,4 @@
-$guardian = @"
+
 
 <p align="center">
 
