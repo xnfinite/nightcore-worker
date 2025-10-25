@@ -1,0 +1,40 @@
+# ================================
+# Night Core Default Policy File
+# ================================
+# Edition: B106
+# Description: Default execution and security policies
+# ================================================
+
+[orchestration]
+parallel_limit = 2
+max_memory_mb = 256
+timeout_seconds = 15
+log_level = "info"
+
+[permissions]
+# Allowed sandbox permissions (per tenant)
+allow_stdout = true
+allow_fs_read = true
+allow_net = false
+
+[guardian]
+# Guardian Containment Policy
+enabled = true
+max_fuel = 500000
+drift_tolerance = 0.05
+rollback_enabled = true
+report_channel = "dashboard"
+
+[aufs]
+# Autonomous Upgrade & Fork System
+enabled = true
+threshold_signers = 3
+min_approvals = 2
+rollback_allowed = true
+audit_chain = true
+
+[dashboard]
+# UI and reporting configuration
+auto_open = false
+update_interval_seconds = 10
+theme = "night"
