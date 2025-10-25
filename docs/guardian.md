@@ -1,7 +1,3 @@
-cd "C:\\Users\\gabeg\\source\\repos\\worker"
-
-
-
 $guardian = @"
 
 <p align="center">
