@@ -2,19 +2,7 @@
 
 <p align="center">
 
-&nbsp; <img src="../assets/nightcore\_logo\_tm.png" alt="Night Core™ Logo" width="280"/>
-
-</p>
-
-
-
-<h1 align="center">Night Core™ Guardian — AI Containment Kernel</h1>
-
-
-
-<p align="center">
-
-&nbsp; <strong>Fuel Limits • Byte Drift Detection • Rollback Safety</strong>
+&nbsp; <img src="https://raw.githubusercontent.com/gabeg-source/worker/main/assets/nightcore\_logo\_tm.png" alt="Night Core™ Logo" width="280"/>
 
 </p>
 
