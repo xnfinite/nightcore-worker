@@ -1,32 +1,35 @@
-# Night Core — AUFS Verification Log (v38 Stable)
+<p align="center">
+  <img src="../../assets/nightcore_logo_tm.png" alt="Night Core™ Logo" width="180"/>
+</p>
 
-**Verification Date:** 2025-10-27 14:22:45  
-**System:** Night Core v37 B106 Stable → v38 AUFS  
-**Audit Hash:** 81e7fab9ce3a3e533a1b415af73b0cfeb5d05355a01ebf2d0683287efea6607c
+<h1 align="center">Night Core™ AUFS Verification — v38 Stable</h1>
 
 ---
 
-## 🧩 Overview
-This document certifies that the **Autonomous Upgrade & Fork System (AUFS)** has successfully verified the integrity and authenticity of the Night Core v38 upgrade manifest.
+## ⚙️ Overview
+The **Autonomous Upgrade & Fork System (AUFS)** verification process ensures that all Night Core upgrades are cryptographically validated, hash-consistent, and threshold-approved by maintainers.  
+This document certifies that **v38** has successfully passed all verification steps against the v37 baseline.
 
-### Verification Summary
+---
+
+## 🧩 Verification Summary
 | Component | Result | Notes |
 |------------|:------:|-------|
-| modules/tenantA-hello/module.wasm | ✅ | SHA-256 hash matched manifest |
-| modules/tenantB-math/module.wasm  | ✅ | SHA-256 hash matched manifest |
-| Signatures Verified | ✅ | admin1.pub, admin2.pub |
-| Threshold Requirement | ✅ | 2-of-2 satisfied (4 valid total) |
-| Hash Chain Status | ✅ | Updated successfully |
-| Audit Hash | 🔗 | 81e7fa…a6607c |
+| modules/tenantA-hello/module.wasm | ✅ | SHA-256 integrity verified |
+| modules/tenantB-math/module.wasm  | ✅ | SHA-256 integrity verified |
+| Maintainer Signatures | ✅ | dmin1.pub, dmin2.pub |
+| Threshold | ✅ | 2-of-2 satisfied |
+| Hash Chain | ✅ | Updated successfully |
+| Audit Hash | 🔗 | 81e7fab9ce3a3e533a1b415af73b0cfeb5d05355a01ebf2d0683287efea6607c |
 
 ---
 
 ## 🔐 Maintainer Keys
 
-| Maintainer | Public Key (b64) |
-|-------------|------------------|
-| **admin1.pub** | /bmXmEsMtg5zh29gs5ZHNeRopXBOYn5yZCxEp2wwGyI= |
-| **admin2.pub** | za0bvmR4PrjKSVGZfD+1BBHLQ71IiQ0vnM3Ir3yYiw0= |
+| Maintainer | Public Key (Base64) |
+|-------------|--------------------|
+| dmin1.pub | /bmXmEsMtg5zh29gs5ZHNeRopXBOYn5yZCxEp2wwGyI= |
+| dmin2.pub | za0bvmR4PrjKSVGZfD+1BBHLQ71IiQ0vnM3Ir3yYiw0= |
 
 ---
 
