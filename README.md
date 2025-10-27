@@ -22,8 +22,7 @@ It verifies, isolates, and executes signed `.wasm` modules in secure sandboxes �
 - 🔐 **Ed25519 + SHA-256** signature & integrity verification  
 - 🧩 **Multi-Tenant Orchestration (`--all`)** with per-tenant policies  
 - 📊 **HTML Dashboard** with JSONL logs & audit hash chain  
-- 🔁 **AUFS** — Autonomous Upgrade & Fork System (threshold-signed, self-healing)  
--  
+- 🔁 **AUFS** — Autonomous Upgrade & Fork System (threshold-signed, self-healing)   
 - 🪶 **MIT Open Core** — “B106 Edition” branding & dashboard visuals reserved  
 
 ---
