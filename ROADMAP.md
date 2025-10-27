@@ -36,4 +36,4 @@
 
 ---
 
-<p align="center"><i> 2025 Gabriel Ginn  B106 Labs. All rights reserved.</i></p>
+<p align="center"><i> 2025 xnfinite  B106 Labs. All rights reserved.</i></p>
