@@ -1,26 +1,28 @@
 #![allow(static_mut_refs)]
+#![allow(unused_imports)] // ✅ suppress harmless warnings for future-ready imports
+#![allow(dead_code)]       // ✅ silence Manifest & ALLOWED_PERMS warnings
 
-use anyhow::Result; // ⚙️ Removed unused `Context`
+use anyhow::Result;
 use clap::{Parser, Subcommand};
-use std::{fs, path::PathBuf, time::Instant}; // ⚙️ Removed unused `collections::HashSet`
+use std::{fs, path::PathBuf, time::Instant};
 
+// ⚙️ Keep base64 + crypto + wasmtime imports for feature parity (silenced above)
+use base64::{engine::general_purpose::STANDARD, Engine as _};
 use ed25519_dalek::{Signature, SigningKey, Signer, Verifier, VerifyingKey};
 use serde::{Deserialize, Serialize};
-use sha2::Sha256; // ⚙️ Removed unused `Digest`
-use wasmtime::{
-    Config, Engine as WasmEngine, Linker, Module, Store, StoreLimits, StoreLimitsBuilder,
-};
+use sha2::{Digest, Sha256};
+use wasmtime::{Config, Engine as WasmEngine, Linker, Module, Store, StoreLimits, StoreLimitsBuilder};
 use wasmtime_wasi::{DirPerms, FilePerms, WasiCtxBuilder};
-use wasmtime_wasi::p1::wasi_snapshot_preview1; // ⚙️ Removed unused `WasiP1Ctx`
-use chrono::Local; // ⚙️ Optional: safe to keep if you use timestamps in logs
-use open; // ⚙️ Optional: safe to keep if used in dashboard auto-open
+use wasmtime_wasi::p1::{wasi_snapshot_preview1, WasiP1Ctx};
+use chrono::Local;
 
 mod verify;
 mod aufs;
-mod audit; // ✅ Existing audit module
+mod audit;
 
 const ALLOWED_PERMS: &[&str] = &["stdout", "fs:read"];
 
+#[allow(dead_code)]
 #[derive(Debug, Deserialize)]
 struct Manifest {
     name: String,
@@ -51,35 +53,24 @@ struct Cli {
 
 #[derive(Subcommand, Debug)]
 enum Commands {
-    /// Run a single tenant or all tenants
     Run {
         #[arg(long)]
         dir: Option<PathBuf>,
         #[arg(long)]
         all: bool,
     },
-
-    /// Verify Wasmtime 37 + WASI P1 environment
     Verify,
-
-    /// Inspect manifest for a given tenant
     Inspect {
         #[arg(long)]
         dir: PathBuf,
     },
-
-    /// Sign a tenant module with Ed25519 private key
     Sign {
         #[arg(long)]
         dir: PathBuf,
         #[arg(long)]
         key: PathBuf,
     },
-
-    /// Generate local HTML dashboard for orchestration logs
     Dashboard,
-
-    /// Execute an AUFS upgrade operation
     Upgrade {
         #[arg(long)]
         manifest: PathBuf,
@@ -146,7 +137,6 @@ async fn main() -> Result<()> {
             let duration = start.elapsed().as_secs_f32();
             println!("✨ Multi-tenant orchestration finished in {:.2}s", duration);
 
-            // Dashboard output
             let dashboard_path = PathBuf::from("logs/nightcore_dashboard.html");
             fs::create_dir_all("logs")?;
             let html = generate_dashboard_html(&reports);
@@ -202,32 +192,48 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
+// =========================================================
+// 📊 DASHBOARD GENERATOR (with timestamps)
+// =========================================================
 fn generate_dashboard_html(reports: &[RunReport]) -> String {
+    use chrono::Local;
+
+    let now = Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
+
     let mut html = String::from(
         r#"<!DOCTYPE html><html><head><meta charset="UTF-8">
 <title>Night Core Dashboard</title>
 <style>
-body { font-family: Arial, sans-serif; background:#0a0a0a; color:#ddd; }
-h1 { color:#6cf; }
+body { font-family: Arial, sans-serif; background:#0a0a0a; color:#ddd; margin:40px; }
+h1 { color:#6cf; text-align:center; }
 table { width:100%; border-collapse: collapse; margin-top:20px; }
-td, th { padding:8px; border-bottom:1px solid #333; }
+td, th { padding:8px; border-bottom:1px solid #333; text-align:left; }
 .success { color:#0f0; }
 .fail { color:#f33; }
+.footer { margin-top:40px; text-align:center; font-size:14px; color:#666; }
 </style></head><body>
 <h1>Night Core — Multi-Tenant Report</h1>
-<table><tr><th>Tenant</th><th>SHA256</th><th>Status</th></tr>
+<p style='text-align:center;'>Generated at: TIMESTAMP</p>
+<table><tr><th>Tenant</th><th>SHA256</th><th>Status</th><th>Time</th></tr>
 "#,
     );
 
     for r in reports {
         let status_class = if r.verified { "success" } else { "fail" };
         let status_text = if r.verified { "✅ Verified" } else { "❌ Failed" };
+        let time = Local::now().format("%H:%M:%S").to_string();
         html.push_str(&format!(
-            "<tr><td>{}</td><td>{}</td><td class='{}'>{}</td></tr>\n",
-            r.tenant, r.sha256, status_class, status_text
+            "<tr><td>{}</td><td>{}</td><td class='{}'>{}</td><td>{}</td></tr>\n",
+            r.tenant, r.sha256, status_class, status_text, time
         ));
     }
 
-    html.push_str("</table></body></html>");
-    html
+    html.push_str(&format!(
+        "</table><div class='footer'><hr><p><i>Night Core™ — Secure. Autonomous. Verified.</i><br>
+        <strong>v37 xnfinite Stable Final • Generated at {}</strong></p></div></body></html>",
+        now
+    ));
+
+    html.replace("TIMESTAMP", &now)
 }
+
