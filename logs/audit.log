@@ -68,3 +68,4 @@ Verification:
   - SHA-256 manifest check confirmed
 Outcome: SUCCESS — Manual foundation push approved by maintainer.
 ---
+{"message":"🔒 GPG signing test (Night Core)","ts_utc":"2025-10-27T21:01:29.3717290Z","mode":"normal","branch":"main","actor":"xnfinite","commit":"8dfb38f7edef6bc6d3b8a3a0cebbe5554a76abcf","machine":"DESKTOP-1GPADAC"}
