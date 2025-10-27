@@ -37,3 +37,34 @@
 {"ts_utc":"2025-10-27T17:56:55.8381746Z","machine":"DESKTOP-1GPADAC","actor":"xnfinite","mode":"normal","branch":"main","message":"🧩 Verified AUFS v38 Stable — AUFS_VERIFICATION.md + audit_v38.jsonl","commit":"f0bb035fbcc1a8562db887830e81981faa169f02"}
 {"commit":"34faa2e03ce71b0526747fbbb54abab9d9b2c528","ts_utc":"2025-10-27T18:22:50.8108629Z","actor":"xnfinite","machine":"DESKTOP-1GPADAC","branch":"main","message":"🧩 Verified AUFS v38 Stable — baseline updated, AUFS_VERIFICATION.md + audit_v38.jsonl","mode":"normal"}
 {"machine":"DESKTOP-1GPADAC","branch":"main","ts_utc":"2025-10-27T18:37:09.3447015Z","actor":"xnfinite","commit":"f9590314947e37121378b695c8fc08d1a7c567d3","message":"🧩 Verified AUFS v38 Stable — AUFS_VERIFICATION.md + audit_v38.jsonl","mode":"normal"}
+{"commit":"2fb5adbb958591557969062326228fb1e37e513d","ts_utc":"2025-10-27T19:31:33.9261596Z","actor":"xnfinite","mode":"normal","branch":"main","message":"🔒 Night Core Safe Run — Verified AUFS v38 (2025-10-27 15:31:25)","machine":"DESKTOP-1GPADAC"}
+---
+🧩 Foundation Update — AUFS v38
+Timestamp: 2025-10-27 16:26:24
+Maintainer: xnfinite
+Scope: Core source and signature files
+Justification: Approved baseline modification following AUFS governance policy.
+Action:
+  - Updated src/*.rs core modules
+  - Adjusted AUFS verification/signature logic
+  - Synced new Safe Run script (nightcore_safe_run_signed.ps1)
+Verification:
+  - Ed25519 keys verified prior to push
+  - SHA-256 manifest check confirmed
+Outcome: SUCCESS — Manual foundation push approved by maintainer.
+---
+---
+🧩 Foundation Update — AUFS v38
+Timestamp: 2025-10-27 16:27:00
+Maintainer: xnfinite
+Scope: Core source and signature files
+Justification: Approved baseline modification following AUFS governance policy.
+Action:
+  - Updated src/*.rs core modules
+  - Adjusted AUFS verification/signature logic
+  - Synced new Safe Run script (nightcore_safe_run_signed.ps1)
+Verification:
+  - Ed25519 keys verified prior to push
+  - SHA-256 manifest check confirmed
+Outcome: SUCCESS — Manual foundation push approved by maintainer.
+---

@@ -1,6 +1,5 @@
 use anyhow::Result;
-use std::{fs, path::PathBuf, rc::Rc, cell::RefCell};
-use std::sync::{Arc, Mutex}; // keep for future threading
+use std::{fs, path::PathBuf};
 use base64::{engine::general_purpose::STANDARD, Engine as _};
 use ed25519_dalek::{Signature, VerifyingKey, Verifier, SigningKey, Signer};
 use serde::Deserialize;
@@ -61,6 +60,7 @@ pub async fn verify_environment() -> Result<()> {
 /// ===========================================================
 /// 🧩 Verify & Run Tenant Module
 /// ===========================================================
+#[allow(dead_code)] // ✅ suppress warning (serde-deserialized only)
 #[derive(Debug, Deserialize)]
 struct Manifest {
     name: String,
@@ -113,29 +113,24 @@ pub async fn verify_and_run(dir: &PathBuf) -> Result<String> {
         .build_p1();
     let mut store = Store::new(&engine, wasi_ctx);
 
-    // ✅ Safe static limiter (Wasmtime 37 compliant)
+    // ✅ Static limiter for Wasmtime 37
     let store_limits = StoreLimitsBuilder::new()
         .memory_size(64 * 1024 * 1024)
         .instances(5)
         .tables(5)
         .build();
 
-    // ✅ Leak once and bind to a truly static reference (no capture)
     static mut STATIC_LIMITS: Option<&'static mut StoreLimits> = None;
     let static_limits_ref: &'static mut StoreLimits = Box::leak(Box::new(store_limits));
     unsafe {
         STATIC_LIMITS = Some(static_limits_ref);
+        store.limiter(|_: &mut WasiP1Ctx| *STATIC_LIMITS.as_mut().unwrap());
     }
-
-    // ✅ Assign the limiter without moving out of the static Option
-    store.limiter(|_: &mut WasiP1Ctx| unsafe {
-        *STATIC_LIMITS.as_mut().unwrap() as &mut dyn wasmtime::ResourceLimiter
-    });
 
     // ✅ Fuel limit
     store.set_fuel(10_000).unwrap();
 
-    // ✅ Execute sandboxed module (async versions to match async_support)
+    // ✅ Execute sandboxed module (async)
     let instance = linker.instantiate_async(&mut store, &module).await?;
     if let Some(start_func) = instance.get_func(&mut store, "_start") {
         start_func.call_async(&mut store, &[], &mut []).await?;

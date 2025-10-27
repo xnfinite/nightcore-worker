@@ -1,9 +1,8 @@
-// src/aufs.rs
-use anyhow::{Context, Result};
-use ed25519_dalek::{Signature, VerifyingKey, Verifier};
-use sha2::{Digest, Sha256};
-use serde::{Deserialize, Serialize};
+use anyhow::{anyhow, Context, Result};
 use base64::{engine::general_purpose::STANDARD, Engine as _};
+use ed25519_dalek::{Signature, VerifyingKey, Verifier};
+use serde::{Serialize, Deserialize};
+use sha2::{Digest, Sha256};
 use std::{collections::BTreeMap, fs, path::{Path, PathBuf}};
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -24,29 +23,29 @@ pub struct UpgradeManifest {
     pub signatures_required: usize,
 }
 
-/// Run AUFS verification for an upgrade manifest.
+/// 🔒 Verify AUFS upgrade integrity and threshold signatures.
 pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
     println!("🔄 Running AUFS verification...");
 
+    // --- Load and parse manifest ---
     let manifest_data = fs::read_to_string(manifest_path)
         .context("Failed to read manifest file")?;
     let manifest: UpgradeManifest = serde_json::from_str(&manifest_data)
         .context("Failed to parse upgrade manifest JSON")?;
 
-    // 1️⃣ Verify file hashes
+    // --- Step 1: Verify file hashes ---
     for (file, expected_hash) in &manifest.sha256 {
         let actual = compute_sha256(Path::new(file))?;
         if &actual != expected_hash {
-            return Err(anyhow::anyhow!(
+            return Err(anyhow!(
                 "SHA-256 mismatch for '{}': expected {}, got {}",
-                file,
-                expected_hash,
-                actual
+                file, expected_hash, actual
             ));
         }
+        println!("✅ Hash verified for {}", file);
     }
 
-    // 2️⃣ Load all maintainer keys
+    // --- Step 2: Load maintainer keys ---
     let keys_dir = PathBuf::from("keys/maintainers");
     let key_files: Vec<_> = fs::read_dir(&keys_dir)
         .context("Reading maintainer key directory")?
@@ -55,34 +54,38 @@ pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
         .collect();
 
     if key_files.is_empty() {
-        return Err(anyhow::anyhow!("No maintainer keys found in {:?}", keys_dir));
+        return Err(anyhow!("No maintainer keys found in {:?}", keys_dir));
     }
 
-    // 3️⃣ Load signatures
+    // --- Step 3: Load signatures (.sig or .b64) ---
     let sig_dir = PathBuf::from("upgrades/signatures");
     let sig_files: Vec<_> = fs::read_dir(&sig_dir)
         .context("Reading signatures directory")?
         .filter_map(|e| e.ok())
-        .filter(|e| e.path().extension().and_then(|s| s.to_str()) == Some("sig"))
+        .filter(|e| {
+            if let Some(ext) = e.path().extension().and_then(|s| s.to_str()) {
+                ext == "sig" || ext == "b64"
+            } else {
+                false
+            }
+        })
         .collect();
 
     if sig_files.is_empty() {
-        return Err(anyhow::anyhow!("No signatures found in {:?}", sig_dir));
+        return Err(anyhow!("No signatures found in {:?}", sig_dir));
     }
 
-    // 4️⃣ Compute manifest digest
-    let payload = serde_json::to_vec(&manifest)?;
-    let mut hasher = Sha256::new();
-    hasher.update(&payload);
-    let digest = hasher.finalize();
+    // --- Step 4: Use raw manifest bytes for signature input (must match signer) ---
+    let payload = fs::read(manifest_path)
+        .context("Failed to read manifest for digest computation")?;
+    let audit_hash = Sha256::digest(&payload); // keep for logging only
 
     let mut valid_count = 0;
 
-    // 5️⃣ Verify signatures
+    // --- Step 5: Verify signatures against keys ---
     for sig_entry in &sig_files {
         let sig_path = sig_entry.path();
-        let sig_b64 = fs::read_to_string(&sig_path)
-            .context("Reading signature file")?;
+        let sig_b64 = fs::read_to_string(&sig_path).context("Reading signature file")?;
         let sig_bytes = match STANDARD.decode(sig_b64.trim()) {
             Ok(bytes) => bytes,
             Err(_) => continue,
@@ -96,28 +99,22 @@ pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
             &sig_bytes.try_into().expect("Invalid signature length (need 64 bytes)"),
         );
 
-        // Verify against each maintainer key
         for key_entry in &key_files {
             let key_path = key_entry.path();
-            let key_raw = fs::read_to_string(&key_path)
-                .context("Reading maintainer public key")?;
-            let key_bytes = match STANDARD.decode(key_raw.trim()) {
-                Ok(bytes) => bytes,
-                Err(_) => key_raw.as_bytes().to_vec(),
-            };
-
+            let key_raw = fs::read_to_string(&key_path).context("Reading maintainer public key")?;
+            let key_bytes = STANDARD.decode(key_raw.trim()).context("Invalid base64 pubkey")?;
             if key_bytes.len() != 32 {
                 continue;
             }
 
-            let verifying_key = VerifyingKey::from_bytes(
-                &key_bytes.try_into().expect("Invalid public key length (need 32 bytes)"),
-            )?;
+            let verifying_key =
+                VerifyingKey::from_bytes(&key_bytes.try_into().expect("Invalid public key length"))?;
 
-            if verifying_key.verify(&digest, &signature).is_ok() {
+            // ✅ Verify against RAW payload (not the hash)
+            if verifying_key.verify(&payload, &signature).is_ok() {
                 valid_count += 1;
                 println!(
-                    "✅ Valid signature from {}",
+                    "🔐 Valid signature from {}",
                     key_path.file_name().unwrap().to_string_lossy()
                 );
                 break;
@@ -125,26 +122,32 @@ pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
         }
     }
 
-    if valid_count < manifest.signatures_required {
-        return Err(anyhow::anyhow!(
+    // --- Step 6: Enforce threshold ---
+    let required = if manifest.signatures_required == 0 { 2 } else { manifest.signatures_required };
+
+    if valid_count < required {
+        return Err(anyhow!(
             "AUFS threshold verification failed: only {} valid, need {}",
             valid_count,
-            manifest.signatures_required
+            required
         ));
     }
 
-    // 6️⃣ Log success
-    println!("✅ AUFS verification passed — hash chain updated");
-    println!("🔗 Audit hash: {}", hex::encode(digest));
+    println!(
+        "✅ AUFS verification passed — {} valid of {} required",
+        valid_count, required
+    );
+    println!("🔗 Audit hash: {}", hex::encode(audit_hash));
 
     Ok(())
 }
 
 /// Compute SHA-256 for a file.
-pub fn compute_sha256(file_path: &Path) -> Result<String> {
+fn compute_sha256(file_path: &Path) -> Result<String> {
     let data = fs::read(file_path)
         .with_context(|| format!("Failed to read file {}", file_path.display()))?;
     let mut hasher = Sha256::new();
     hasher.update(&data);
     Ok(hex::encode(hasher.finalize()))
 }
+

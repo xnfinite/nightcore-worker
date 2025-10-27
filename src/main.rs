@@ -1,12 +1,11 @@
 #![allow(static_mut_refs)]
-#![allow(unused_imports)] // ✅ suppress harmless warnings for future-ready imports
-#![allow(dead_code)]       // ✅ silence Manifest & ALLOWED_PERMS warnings
+#![allow(unused_imports)]
+#![allow(dead_code)]
 
 use anyhow::Result;
 use clap::{Parser, Subcommand};
 use std::{fs, path::PathBuf, time::Instant};
 
-// ⚙️ Keep base64 + crypto + wasmtime imports for feature parity (silenced above)
 use base64::{engine::general_purpose::STANDARD, Engine as _};
 use ed25519_dalek::{Signature, SigningKey, Signer, Verifier, VerifyingKey};
 use serde::{Deserialize, Serialize};
@@ -19,6 +18,11 @@ use chrono::Local;
 mod verify;
 mod aufs;
 mod audit;
+mod generate_keys;
+use generate_keys::generate_keys;
+mod sign;
+mod sign_upgrade; // ✅ kept only one declaration — below `mod sign;`
+use sign_upgrade::sign_upgrade;
 
 const ALLOWED_PERMS: &[&str] = &["stdout", "fs:read"];
 
@@ -74,6 +78,19 @@ enum Commands {
     Upgrade {
         #[arg(long)]
         manifest: PathBuf,
+    },
+    GenerateKeys {
+        #[arg(long, default_value = "keys")]
+        out_dir: String,
+    },
+    // ✅ subcommand for signing upgrade manifests
+    SignUpgrade {
+        #[arg(long)]
+        manifest: PathBuf,
+        #[arg(long)]
+        key: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
     },
 }
 
@@ -187,6 +204,15 @@ async fn main() -> Result<()> {
                 }
             }
         }
+
+        Commands::GenerateKeys { out_dir } => {
+            generate_keys(&out_dir)?;
+        }
+
+        // ✅ handler for sign-upgrade
+        Commands::SignUpgrade { manifest, key, out } => {
+            sign_upgrade(&manifest, &key, &out)?;
+        }
     }
 
     Ok(())
@@ -236,4 +262,5 @@ td, th { padding:8px; border-bottom:1px solid #333; text-align:left; }
 
     html.replace("TIMESTAMP", &now)
 }
+
 
