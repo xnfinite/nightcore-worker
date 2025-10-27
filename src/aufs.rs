@@ -27,8 +27,25 @@ pub struct UpgradeManifest {
 pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
     println!("🔄 Running AUFS verification...");
 
+    // --- Auto-resolve manifest location (minimal change) ---
+    let mut resolved_path = manifest_path.to_path_buf();
+    if !resolved_path.exists() {
+        // Try repo root (one level up from target/debug)
+        let alt_path = PathBuf::from("../upgrades/manifests/upgrade_manifest.json");
+        if alt_path.exists() {
+            println!("📄 Manifest not found at {:?}, using fallback {:?}", manifest_path, alt_path);
+            resolved_path = alt_path;
+        } else {
+            return Err(anyhow!(
+                "Failed to read manifest file: {:?} (also checked {:?})",
+                manifest_path,
+                alt_path
+            ));
+        }
+    }
+
     // --- Load and parse manifest ---
-    let manifest_data = fs::read_to_string(manifest_path)
+    let manifest_data = fs::read_to_string(&resolved_path)
         .context("Failed to read manifest file")?;
     let manifest: UpgradeManifest = serde_json::from_str(&manifest_data)
         .context("Failed to parse upgrade manifest JSON")?;
@@ -76,7 +93,7 @@ pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
     }
 
     // --- Step 4: Use raw manifest bytes for signature input (must match signer) ---
-    let payload = fs::read(manifest_path)
+    let payload = fs::read(&resolved_path)
         .context("Failed to read manifest for digest computation")?;
     let audit_hash = Sha256::digest(&payload); // keep for logging only
 
@@ -150,4 +167,3 @@ fn compute_sha256(file_path: &Path) -> Result<String> {
     hasher.update(&data);
     Ok(hex::encode(hasher.finalize()))
 }
-

@@ -1,8 +1,20 @@
 {
   "version": "v38",
-  "description": "Night Core upgrade verification manifest",
-  "modules": [
+  "previous_version": "v37",
+  "timestamp": "2025-10-27T22:30:00Z",
+  "description": "Night Core AUFS upgrade manifest for tenants A and B.",
+  "files": [
     "modules/tenantA-hello/module.wasm",
     "modules/tenantB-math/module.wasm"
-  ]
+  ],
+  "sha256": {
+    "modules/tenantA-hello/module.wasm": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "modules/tenantB-math/module.wasm": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "keys": [
+    "keys/maintainers/admin1.pub",
+    "keys/maintainers/admin2.pub"
+  ],
+  "signature": null,
+  "signatures_required": 2
 }

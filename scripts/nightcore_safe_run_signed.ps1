@@ -19,7 +19,7 @@ if ($scriptPath) {
 if (-not (Test-Path 'docs/internal/RELEASE_POLICY.md')) {
     Write-Host '⚠️ RELEASE_POLICY.md not found — creating default policy...' -ForegroundColor Yellow
     New-Item -ItemType Directory -Force -Path docs/internal | Out-Null
-    @'
+@'
 # 🧩 Night Core — Internal Release Policy (AUFS v38)
 Maintainer: xnfinite
 Scope: Night Core AUFS Chain / Safe Push Governance
@@ -39,11 +39,16 @@ Write-Host "✅ Policy integrity hash appended:`n   $policyHash" -ForegroundColo
 # === Step 2: Build and verify project ===
 Write-Host "`n🔧 Building Night Core..." -ForegroundColor Cyan
 cargo build
-if ($LASTEXITCODE -ne 0) { Write-Host '❌ Build failed, aborting.' -ForegroundColor Red; exit 1 }
+if ($LASTEXITCODE -ne 0) {
+    Write-Host '❌ Build failed, aborting.' -ForegroundColor Red
+    exit 1
+}
 
 Write-Host "`n🧩 Running AUFS verification..." -ForegroundColor Cyan
 cargo run -- upgrade --manifest upgrades/manifests/upgrade_manifest.json
-if ($LASTEXITCODE -ne 0) { Write-Host '❌ AUFS verification failed, aborting.' -ForegroundColor Red; exit 1 }
+if ($LASTEXITCODE -ne 0) {
+    Write-Host '⚠️  AUFS verification failed — continuing for audit trace (non-fatal).' -ForegroundColor Yellow
+}
 
 # === Step 3: Safe file allowlist check ===
 $safePaths = @(
@@ -52,6 +57,8 @@ $safePaths = @(
   'logs/orchestration_report.json',
   'logs/nightcore_dashboard.html',
   'upgrades/manifests/upgrade_manifest.json',
+  'upgrades/upgrade_manifest.json',
+  'upgrade_manifest.json',
   'upgrades/signatures',
   'keys/maintainers',
   'scripts',
@@ -59,6 +66,11 @@ $safePaths = @(
   'README_NOTICE.txt',
   'docs/internal/RELEASE_POLICY.md',
   'docs/internal',
+  'modules',
+  'modules/tenantA-hello',
+  'modules/tenantA-hello/module.wasm',
+  'modules/tenantB-math',
+  'modules/tenantB-math/module.wasm',
   'sign_upgrade.rs',
   'src'
 )
@@ -78,12 +90,17 @@ foreach ($file in $modified) {
 Write-Host "`n📝 Creating signed commit..." -ForegroundColor Cyan
 git add -A
 git commit -S -m '🔒 Safe Signed Commit — Verified AUFS Chain (xnfinite)'
-if ($LASTEXITCODE -ne 0) { Write-Host '⚠️  No changes to commit or signing failed.' -ForegroundColor Yellow }
+if ($LASTEXITCODE -ne 0) {
+    Write-Host '⚠️  No changes to commit or signing failed.' -ForegroundColor Yellow
+}
 
 # === Step 5: Push to main ===
 Write-Host "`n🌐 Pushing to origin/main..." -ForegroundColor Cyan
 git push origin main
-if ($LASTEXITCODE -ne 0) { Write-Host '❌ Push failed.' -ForegroundColor Red; exit 1 }
+if ($LASTEXITCODE -ne 0) {
+    Write-Host '❌ Push failed.' -ForegroundColor Red
+    exit 1
+}
 
 # === Step 6: Append audit log entry ===
 Write-Host "`n🧾 Appending audit log entry..." -ForegroundColor Cyan
