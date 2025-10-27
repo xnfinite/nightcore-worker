@@ -1,26 +1,23 @@
 #![allow(static_mut_refs)]
 
-use anyhow::{Context, Result};
+use anyhow::Result; // ⚙️ Removed unused `Context`
 use clap::{Parser, Subcommand};
-use std::{collections::HashSet, fs, path::PathBuf, time::Instant};
+use std::{fs, path::PathBuf, time::Instant}; // ⚙️ Removed unused `collections::HashSet`
 
-use base64::engine::general_purpose::STANDARD;
-use base64::Engine as _;
 use ed25519_dalek::{Signature, SigningKey, Signer, Verifier, VerifyingKey};
 use serde::{Deserialize, Serialize};
-use sha2::{Digest, Sha256};
-use tokio::fs as tokio_fs;
+use sha2::Sha256; // ⚙️ Removed unused `Digest`
 use wasmtime::{
     Config, Engine as WasmEngine, Linker, Module, Store, StoreLimits, StoreLimitsBuilder,
 };
 use wasmtime_wasi::{DirPerms, FilePerms, WasiCtxBuilder};
-use wasmtime_wasi::p1::{wasi_snapshot_preview1, WasiP1Ctx};
-use chrono::Local;
-use open;
+use wasmtime_wasi::p1::wasi_snapshot_preview1; // ⚙️ Removed unused `WasiP1Ctx`
+use chrono::Local; // ⚙️ Optional: safe to keep if you use timestamps in logs
+use open; // ⚙️ Optional: safe to keep if used in dashboard auto-open
 
 mod verify;
 mod aufs;
-mod audit; // ✅ Added audit module (Option A)
+mod audit; // ✅ Existing audit module
 
 const ALLOWED_PERMS: &[&str] = &["stdout", "fs:read"];
 
@@ -101,9 +98,6 @@ async fn main() -> Result<()> {
     let cli = Cli::parse();
 
     match cli.cmd {
-        // =========================================================
-        // 🧩 MULTI-TENANT ORCHESTRATION
-        // =========================================================
         Commands::Run { dir, all } => {
             println!("🌑 Running all tenants...");
             let start = Instant::now();
@@ -160,41 +154,26 @@ async fn main() -> Result<()> {
             println!("📊 Dashboard written to {}", dashboard_path.display());
         }
 
-        // =========================================================
-        // 🔍 VERIFY ENVIRONMENT
-        // =========================================================
         Commands::Verify => {
             println!("Verifying Wasmtime + WASI environment...");
             verify::verify_environment().await?;
         }
 
-        // =========================================================
-        // 🧾 INSPECT TENANT MANIFEST
-        // =========================================================
         Commands::Inspect { dir } => {
             verify::inspect_manifest(&dir)?;
         }
 
-        // =========================================================
-        // ✍️ SIGN MODULE
-        // =========================================================
         Commands::Sign { dir, key } => {
             verify::sign_module(&dir, &key)?;
         }
 
-        // =========================================================
-        // 📊 DASHBOARD GENERATION
-        // =========================================================
         Commands::Dashboard => {
             verify::generate_dashboard()?;
         }
 
-        // =========================================================
-        // 🔁 AUFS UPGRADE EXECUTION
-        // =========================================================
         Commands::Upgrade { manifest } => {
             println!("🔄 Running AUFS verification...");
-            match aufs::verify_upgrade(&manifest) { // ✅ CHANGED LINE
+            match aufs::verify_upgrade(&manifest) {
                 Ok(_) => {
                     println!("✅ AUFS verification passed — hash chain updated");
                     let _ = audit::append(
@@ -223,9 +202,6 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
-// =========================================================
-// 📊 DASHBOARD HELPER
-// =========================================================
 fn generate_dashboard_html(reports: &[RunReport]) -> String {
     let mut html = String::from(
         r#"<!DOCTYPE html><html><head><meta charset="UTF-8">
