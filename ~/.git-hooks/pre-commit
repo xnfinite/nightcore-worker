@@ -1,0 +1,10 @@
+#!/bin/sh
+# 🛡️ Night Core Foundation Lock (Global)
+# Prevents modification of immutable foundation baselines
+
+if git diff --cached --name-only | grep -q "^foundation/baseline\.json$"; then
+  echo "❌ Modification to foundation/baseline.json is not allowed."
+  echo "   This file defines the immutable Night Core baseline (v37-B106-Stable)."
+  echo "   To override intentionally, use: git commit --no-verify"
+  exit 1
+fi

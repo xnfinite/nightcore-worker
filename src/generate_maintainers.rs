@@ -23,6 +23,3 @@ fn main() -> Result<()> {
     println!("✅ Maintainer keys generated successfully in keys/maintainers/");
     Ok(())
 }
-
-
-

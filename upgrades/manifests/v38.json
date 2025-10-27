@@ -1,0 +1,15 @@
+{
+  "version": "v38",
+  "previous_version": "v37",
+  "timestamp": "2025-10-25T20:30:00Z",
+  "description": "Night Core AUFS test upgrade manifest (dummy data)",
+  "files": [
+    "Cargo.toml",
+    "src/main.rs"
+  ],
+  "sha256": {
+  "Cargo.toml": "9437b5d8457c7cc33528e8f99f2a05d7192f12d33e67407f207259be5c8dab80",
+  "src/main.rs": "9c4efb7dd9d081a136509d8627cfff2a5ebd045c20359ff0be162261503eeb91"
+},
+  "signatures_required": 1
+}

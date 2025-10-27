@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "math_module",
   "version": "1.0.0",
   "description": "Performs simple math inside WASM",
