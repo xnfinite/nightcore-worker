@@ -23,7 +23,7 @@ It verifies, isolates, and executes signed `.wasm` modules in secure sandboxes �
 - 🧩 **Multi-Tenant Orchestration (`--all`)** with per-tenant policies  
 - 📊 **HTML Dashboard** with JSONL logs & audit hash chain  
 - 🔁 **AUFS** — Autonomous Upgrade & Fork System (threshold-signed, self-healing)  
-- ☁️ **AWS-Ready** (Nitro Enclaves / Fargate / KMS / Lambda integration path)  
+-  
 - 🪶 **MIT Open Core** — “B106 Edition” branding & dashboard visuals reserved  
 
 ---
@@ -80,7 +80,7 @@ logs/       → Runtime & audit outputs
 
 ---
 
-## ☁️ AWS Integration Strategy (Preview)
+## ☁️ AWS Integration Strategy (SOON)
 Night Core is designed for native deployment on **AWS Cloud** infrastructure:
 - **Nitro Enclaves / Fargate** for tenant isolation  
 - **KMS / CloudHSM** for key management  
@@ -109,7 +109,7 @@ See [**Governance**](https://github.com/xnfinite/nightcore-worker/blob/main/docs
 
 ## 📜 License
 **Night Core Open-Core Edition** is licensed under the **MIT License**.  
-The **Night Core™**, **B106 Edition**, and **Guardian** names, logos, and dashboard visuals are proprietary trademarks of **Gabriel Ginn / B106 Labs**.
+The **Night Core™**, **B106 Edition**, and **Guardian** names, logos, and dashboard visuals are proprietary trademarks of **xnfinite / B106 Labs**.
 
 ---
 
@@ -118,5 +118,27 @@ The **Night Core™**, **B106 Edition**, and **Guardian** names, logos, and dash
 > secure enough for enterprises, open enough for everyone.”*
 
 ---
+---
 
-<p align="center"><i>© 2025 Gabriel Ginn — Building the future of verifiable autonomous compute.</i></p>
+## 🛡️ Proof of Authorship & Legal Notice
+>Copyright (c) 2025 xnfinite  
+All Rights Reserved.
+
+Night Core™ is an open-source project authored and maintained by the xnfinite organization.  
+Original source code was first published on GitHub under the account “xnfinite” in 2025.  
+All commits, signatures, and hashes in this repository serve as cryptographic proof of authorship and date of creation.
+
+This project is released under the MIT License.  
+Any use, modification, or redistribution of the source code must retain the above copyright notice  
+and include a copy of the MIT License. Removal of author attribution is a violation of this license.
+
+The names “Night Core™”, “Night Mesh™”, and “B106 Edition™”, along with associated branding,  
+logos, and dashboard visuals, are trademarks of the xnfinite organization and may not be used  
+in derivative works or commercial products without written permission.
+
+Unauthorized rebranding, impersonation, or misrepresentation of authorship  
+constitutes a violation of international copyright and trademark law.  
+All derivative works must clearly disclose that they are forks of the original  
+Night Core framework and may not claim official affiliation.
+
+<p align="center"><i>© 2025 xnfinite — Building the future of verifiable autonomous compute.</i></p>
