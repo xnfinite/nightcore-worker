@@ -50,7 +50,7 @@ struct Manifest {
 #[command(
     name = "nightcore",
     version,
-    about = "Night Core v37 — Secure Multi-Tenant WASM Runner (B106 Edition)"
+    about = "Night Core v38 — Secure Multi-Tenant WASM Runner (xnfinite Stable)"
 )]
 struct Cli {
     #[command(subcommand)]
@@ -85,7 +85,7 @@ enum Commands {
         #[arg(long, default_value = "keys")]
         out_dir: String,
     },
-    // ✅ simplified sign-upgrade: only needs manifest
+    /// ✍️  Automatically sign an upgrade manifest with all maintainer keys
     SignUpgrade {
         #[arg(long)]
         manifest: PathBuf,
@@ -204,18 +204,17 @@ async fn main() -> Result<()> {
             generate_keys(&out_dir)?;
         }
 
-               // ✅ handler for sign-upgrade (fixed)
+        // ✅ Simplified call
         Commands::SignUpgrade { manifest } => {
             sign_upgrade(&manifest)?;
         }
-
     }
 
     Ok(())
 }
 
 // =========================================================
-// 📊 DASHBOARD GENERATOR (with timestamps)
+// 📊 DASHBOARD GENERATOR (unchanged)
 // =========================================================
 fn generate_dashboard_html(reports: &[RunReport]) -> String {
     use chrono::Local;
@@ -252,7 +251,7 @@ td, th { padding:8px; border-bottom:1px solid #333; text-align:left; }
 
     html.push_str(&format!(
         "</table><div class='footer'><hr><p><i>Night Core™ — Secure. Autonomous. Verified.</i><br>
-        <strong>v37 xnfinite Stable Final • Generated at {}</strong></p></div></body></html>",
+        <strong>v38 xnfinite Stable • Generated at {}</strong></p></div></body></html>",
         now
     ));
 
