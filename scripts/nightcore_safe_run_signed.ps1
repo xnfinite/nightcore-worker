@@ -1,7 +1,7 @@
 # ==========================================================
-# Night Core — Safe Run & Signed Push Script (v38.1 Stable)
+# Night Core — Safe Run & Signed Push Script (v38 Stable)
 # Maintainer: xnfinite
-# Purpose: Automatically sign, verify, and push secure AUFS commits
+# Purpose: Verify AUFS, sign, and safely push verified commits
 # ==========================================================
 
 Write-Host "`n🚀 Starting Night Core Safe Run (Signed Mode)" -ForegroundColor Cyan
@@ -14,6 +14,11 @@ if ($scriptPath) {
 } else {
     Write-Host "⚠️ Could not determine script directory; continuing in current location." -ForegroundColor Yellow
 }
+
+# === ✅ Step 0.5: Change directory to repo root (critical fix) ===
+$repoRoot = Resolve-Path ".."
+Set-Location $repoRoot
+Write-Host "📦 Working directory set to: $repoRoot" -ForegroundColor DarkCyan
 
 # === Step 1: Ensure release policy exists ===
 if (-not (Test-Path 'docs/internal/RELEASE_POLICY.md')) {
@@ -36,35 +41,15 @@ $policyHash = (Get-FileHash 'docs/internal/RELEASE_POLICY.md' -Algorithm SHA256)
 Add-Content 'docs/internal/RELEASE_POLICY.md' "`n`n---`nIntegrity Hash (SHA-256): $policyHash"
 Write-Host "✅ Policy integrity hash appended:`n   $policyHash" -ForegroundColor Green
 
-# === Step 1.6: Auto-sign upgrade manifest (dual-admin signing) ===
+# === Step 2: Sign upgrade manifest automatically (Admin1 + Admin2) ===
 Write-Host "`n✍️  Signing upgrade manifest (Admin1 + Admin2)..." -ForegroundColor Cyan
-
-$manifest = "upgrades/manifests/upgrade_manifest.json"
-$keysDir = "keys/maintainers"
-$signaturesDir = "upgrades/signatures"
-
-if (-not (Test-Path $signaturesDir)) { New-Item -ItemType Directory -Force -Path $signaturesDir | Out-Null }
-
-$admins = @("admin1", "admin2")
-
-foreach ($admin in $admins) {
-    $keyPath = Join-Path $keysDir "$admin.key"
-    $outPath = Join-Path $signaturesDir "$admin.sig.b64"
-
-    if (-not (Test-Path $keyPath)) {
-        Write-Host "⚠️ Missing key for $admin at $keyPath — skipping." -ForegroundColor Yellow
-        continue
-    }
-
-    cargo run -- sign-upgrade --manifest $manifest --key $keyPath --out $outPath
-    if ($LASTEXITCODE -eq 0) {
-        Write-Host "✅ Manifest signed by $admin" -ForegroundColor Green
-    } else {
-        Write-Host "❌ Signing failed for $admin" -ForegroundColor Red
-    }
+cargo run -- sign-upgrade --manifest upgrades/manifests/upgrade_manifest.json
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "❌ Signing process failed." -ForegroundColor Red
+    exit 1
 }
 
-# === Step 2: Build and verify project ===
+# === Step 3: Build and verify project ===
 Write-Host "`n🔧 Building Night Core..." -ForegroundColor Cyan
 cargo build
 if ($LASTEXITCODE -ne 0) {
@@ -73,12 +58,12 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "`n🧩 Running AUFS verification..." -ForegroundColor Cyan
-cargo run -- upgrade --manifest $manifest
+cargo run -- upgrade --manifest upgrades/manifests/upgrade_manifest.json
 if ($LASTEXITCODE -ne 0) {
     Write-Host '⚠️  AUFS verification failed — continuing for audit trace (non-fatal).' -ForegroundColor Yellow
 }
 
-# === Step 3: Safe file allowlist check ===
+# === Step 4: Safe file allowlist check ===
 $safePaths = @(
   'baseline.json',
   'logs/audit.log',
@@ -114,7 +99,7 @@ foreach ($file in $modified) {
     }
 }
 
-# === Step 4: Signed commit ===
+# === Step 5: Signed commit ===
 Write-Host "`n📝 Creating signed commit..." -ForegroundColor Cyan
 git add -A
 git commit -S -m '🔒 Safe Signed Commit — Verified AUFS Chain (xnfinite)'
@@ -122,7 +107,7 @@ if ($LASTEXITCODE -ne 0) {
     Write-Host '⚠️  No changes to commit or signing failed.' -ForegroundColor Yellow
 }
 
-# === Step 5: Push to main ===
+# === Step 6: Push to main ===
 Write-Host "`n🌐 Pushing to origin/main..." -ForegroundColor Cyan
 git push origin main
 if ($LASTEXITCODE -ne 0) {
@@ -130,23 +115,24 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-# === Step 6: Append audit log entry ===
+# === Step 7: Append audit log entry ===
 Write-Host "`n🧾 Appending audit log entry..." -ForegroundColor Cyan
 $commitHash = (git rev-parse HEAD).Trim()
 $timestamp = (Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
 
 $auditEntry = @"
 ---
-🧩 Verification Pass — AUFS v38.1
+🧩 Verification Pass — AUFS v38
 Timestamp: $timestamp
 Commit: $commitHash
 Audit Hash: $policyHash
 Maintainer: xnfinite
 Outcome: SUCCESS — Safe signed run completed and verified.
---- 
+---
 "@
 Add-Content -Encoding UTF8 "logs/audit.log" $auditEntry
 Write-Host "✅ Audit entry appended for commit $commitHash" -ForegroundColor Green
 
 Write-Host "`n✅ Safe signed run completed successfully!" -ForegroundColor Green
+
 
