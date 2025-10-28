@@ -10,7 +10,9 @@ use base64::{engine::general_purpose::STANDARD, Engine as _};
 use ed25519_dalek::{Signature, SigningKey, Signer, Verifier, VerifyingKey};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
-use wasmtime::{Config, Engine as WasmEngine, Linker, Module, Store, StoreLimits, StoreLimitsBuilder};
+use wasmtime::{
+    Config, Engine as WasmEngine, Linker, Module, Store, StoreLimits, StoreLimitsBuilder,
+};
 use wasmtime_wasi::{DirPerms, FilePerms, WasiCtxBuilder};
 use wasmtime_wasi::p1::{wasi_snapshot_preview1, WasiP1Ctx};
 use chrono::Local;
@@ -21,7 +23,7 @@ mod audit;
 mod generate_keys;
 use generate_keys::generate_keys;
 mod sign;
-mod sign_upgrade; // ✅ kept only one declaration — below `mod sign;`
+mod sign_upgrade;
 use sign_upgrade::sign_upgrade;
 
 const ALLOWED_PERMS: &[&str] = &["stdout", "fs:read"];
@@ -83,14 +85,10 @@ enum Commands {
         #[arg(long, default_value = "keys")]
         out_dir: String,
     },
-    // ✅ subcommand for signing upgrade manifests
+    // ✅ simplified sign-upgrade: only needs manifest
     SignUpgrade {
         #[arg(long)]
         manifest: PathBuf,
-        #[arg(long)]
-        key: PathBuf,
-        #[arg(long)]
-        out: PathBuf,
     },
 }
 
@@ -117,11 +115,8 @@ async fn main() -> Result<()> {
                     let entry = entry?;
                     if entry.path().is_dir() {
                         let tenant_dir = entry.path();
-                        let tenant_name = tenant_dir
-                            .file_name()
-                            .unwrap()
-                            .to_string_lossy()
-                            .to_string();
+                        let tenant_name =
+                            tenant_dir.file_name().unwrap().to_string_lossy().to_string();
 
                         println!("Discovered tenant: {}", tenant_name);
 
@@ -209,10 +204,11 @@ async fn main() -> Result<()> {
             generate_keys(&out_dir)?;
         }
 
-        // ✅ handler for sign-upgrade
-        Commands::SignUpgrade { manifest, key, out } => {
-            sign_upgrade(&manifest, &key, &out)?;
+               // ✅ handler for sign-upgrade (fixed)
+        Commands::SignUpgrade { manifest } => {
+            sign_upgrade(&manifest)?;
         }
+
     }
 
     Ok(())
@@ -262,5 +258,3 @@ td, th { padding:8px; border-bottom:1px solid #333; text-align:left; }
 
     html.replace("TIMESTAMP", &now)
 }
-
-
