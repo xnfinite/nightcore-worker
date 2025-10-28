@@ -1,7 +1,7 @@
 # ==========================================================
-# Night Core — Safe Run & Signed Push Script (v38 Stable)
+# Night Core — Safe Run & Signed Push Script (v38.1 Stable)
 # Maintainer: xnfinite
-# Purpose: Verify AUFS, sign, and safely push verified commits
+# Purpose: Automatically sign, verify, and push secure AUFS commits
 # ==========================================================
 
 Write-Host "`n🚀 Starting Night Core Safe Run (Signed Mode)" -ForegroundColor Cyan
@@ -36,6 +36,34 @@ $policyHash = (Get-FileHash 'docs/internal/RELEASE_POLICY.md' -Algorithm SHA256)
 Add-Content 'docs/internal/RELEASE_POLICY.md' "`n`n---`nIntegrity Hash (SHA-256): $policyHash"
 Write-Host "✅ Policy integrity hash appended:`n   $policyHash" -ForegroundColor Green
 
+# === Step 1.6: Auto-sign upgrade manifest (dual-admin signing) ===
+Write-Host "`n✍️  Signing upgrade manifest (Admin1 + Admin2)..." -ForegroundColor Cyan
+
+$manifest = "upgrades/manifests/upgrade_manifest.json"
+$keysDir = "keys/maintainers"
+$signaturesDir = "upgrades/signatures"
+
+if (-not (Test-Path $signaturesDir)) { New-Item -ItemType Directory -Force -Path $signaturesDir | Out-Null }
+
+$admins = @("admin1", "admin2")
+
+foreach ($admin in $admins) {
+    $keyPath = Join-Path $keysDir "$admin.key"
+    $outPath = Join-Path $signaturesDir "$admin.sig.b64"
+
+    if (-not (Test-Path $keyPath)) {
+        Write-Host "⚠️ Missing key for $admin at $keyPath — skipping." -ForegroundColor Yellow
+        continue
+    }
+
+    cargo run -- sign-upgrade --manifest $manifest --key $keyPath --out $outPath
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "✅ Manifest signed by $admin" -ForegroundColor Green
+    } else {
+        Write-Host "❌ Signing failed for $admin" -ForegroundColor Red
+    }
+}
+
 # === Step 2: Build and verify project ===
 Write-Host "`n🔧 Building Night Core..." -ForegroundColor Cyan
 cargo build
@@ -45,7 +73,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "`n🧩 Running AUFS verification..." -ForegroundColor Cyan
-cargo run -- upgrade --manifest upgrades/manifests/upgrade_manifest.json
+cargo run -- upgrade --manifest $manifest
 if ($LASTEXITCODE -ne 0) {
     Write-Host '⚠️  AUFS verification failed — continuing for audit trace (non-fatal).' -ForegroundColor Yellow
 }
@@ -109,15 +137,16 @@ $timestamp = (Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
 
 $auditEntry = @"
 ---
-🧩 Verification Pass — AUFS v38
+🧩 Verification Pass — AUFS v38.1
 Timestamp: $timestamp
 Commit: $commitHash
 Audit Hash: $policyHash
 Maintainer: xnfinite
 Outcome: SUCCESS — Safe signed run completed and verified.
----
+--- 
 "@
 Add-Content -Encoding UTF8 "logs/audit.log" $auditEntry
 Write-Host "✅ Audit entry appended for commit $commitHash" -ForegroundColor Green
 
 Write-Host "`n✅ Safe signed run completed successfully!" -ForegroundColor Green
+
