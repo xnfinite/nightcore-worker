@@ -78,7 +78,7 @@ pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
         }
         let actual = compute_sha256(&file_path)
             .with_context(|| format!("Failed to read file {}", file_path.display()))?;
-        if &actual != expected_hash {
+        if actual.to_lowercase() != expected_hash.to_lowercase() {
             return Err(anyhow!(
                 "SHA-256 mismatch for '{}': expected {}, got {}",
                 file,
