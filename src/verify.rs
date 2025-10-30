@@ -105,15 +105,25 @@ pub fn verify_and_run(dir: &Path) -> Result<String> {
         .ok_or_else(|| anyhow!("no callable entrypoint found (tried: _start, main, run)"))?;
 
     // Call entry
-    if let Err(e) = entry.call(&mut store, &[], &mut []) {
+        if let Err(e) = entry.call(&mut store, &[], &mut []) {
         let msg = e.to_string();
         let safe = String::from_utf8_lossy(msg.as_bytes());
         eprintln!("⚠️ Tenant {} runtime error: {}", dir.display(), safe);
     } else {
+        // 🧠 After module executes, capture possible stdout files (optional future use)
         println!("🏁 Tenant execution complete: {}", dir.display());
+
+        // 🔒 Safe UTF-8 handling for any extra sandbox output
+        if let Ok(extra) = fs::read(dir.join("sandbox/msg.txt")) {
+            let safe_output = String::from_utf8_lossy(&extra).to_string();
+            if !safe_output.trim().is_empty() {
+                println!("🧠 Tenant output:\n{}", safe_output);
+            }
+        }
     }
 
     Ok(sha_hex)
+
 }
 
 /// Helper: find `_start`, `main`, or `run`
