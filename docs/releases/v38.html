@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Night Core™ — v38 Provenance</title>
+<style>
+body { font-family: 'Segoe UI', sans-serif; background:#0b0c10; color:#cfd8dc; margin:2em; }
+h1, h2 { color:#00bcd4; }
+table { width:100%; border-collapse:collapse; margin-top:1em; }
+td, th { border:1px solid #263238; padding:8px; text-align:left; }
+tr:nth-child(even) { background:#1c1f26; }
+a { color:#4dd0e1; }
+.logo { width:160px; }
+.footer { margin-top:2em; font-size:0.85em; color:#78909c; }
+</style>
+</head>
+<body>
+<img src="../assets/nightcore_logo_tm.png" alt="Night Core Logo" class="logo">
+<h1>Night Core™ v38 — Provenance Record</h1>
+
+<p><b>Release Date:</b> 2025-10-29<br>
+<b>Commit ID:</b> d578b99958a2a248840f7faa318a915debecdc72<br>
+<b>Audit Hash (SHA-256):</b> 192890d99bfbf65ef6cb05e3a2bf3a2debf87c4ef51cde396fcdd6e51bfaf0b2<br>
+<b>Policy Fingerprint:</b> ADAF06CF2AE73B872897E1FDACF8C791FD1FB8476BDDF620971C85968C128D75</p>
+
+<h2>✅ Verification Summary</h2>
+<table>
+<tr><th>Check</th><th>Status</th><th>Details</th></tr>
+<tr><td>AUFS Threshold</td><td>✅</td><td>2 of 2 valid signatures (admin1, admin2)</td></tr>
+<tr><td>Module Integrity</td><td>✅</td><td>tenantA-hello & tenantB-math SHA-256 match</td></tr>
+<tr><td>Policy Verification</td><td>✅</td><td>RELEASE_POLICY.md hash verified</td></tr>
+<tr><td>Audit Chain</td><td>✅</td><td>Entry appended to logs/audit.log</td></tr>
+</table>
+
+<h2>🔐 Maintainer Signatures</h2>
+<ul>
+<li><b>admin1.pub</b>: atEOzpDAAxJC94Mk/Shc5Lc0KqTnTq/iHfOcLdnA3vc=</li>
+<li><b>admin2.pub</b>: f5M+HyBN8wvRyR3Z8Ay0fc2C9eLSk44HYlhNs5Aka/o=</li>
+</ul>
+
+<h2>🧩 Highlights</h2>
+<ul>
+<li>AUFS v38 core verification completed successfully</li>
+<li>Full multi-tenant integrity check (A & B)</li>
+<li>Dual Ed25519 maintainer threshold validated</li>
+<li>Audit log and policy hash commit recorded</li>
+<li>GitHub tag <b>v38-stable-aufs-verified</b></li>
+</ul>
+
+<div class="footer">
+<p>Night Core™ © B106 Labs | Open Core MIT License | Generated 10/29/2025 22:26:12</p>
+</div>
+</body>
+</html>

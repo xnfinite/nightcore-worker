@@ -8,9 +8,37 @@
   <br/>
   <sub>Night Core™ — Secure • Autonomous • Verified</sub>
 </p>
+
+<!-- Night Core v38 Verified Summary -->
+### 🧩 Night Core ™ v38 — Verified Build Summary
+
+| Field | Value |
+|-------|-------|
+| **Commit ID** | $commitHash |
+| **Timestamp** | $timestamp |
+| **Audit Hash (SHA-256)** | $auditHash |
+| **Maintainers** | admin1 • admin2 |
+| **Threshold** | 2 / 2 signatures valid |
+| **Status** | ✅ AUFS Chain Verified and Pushed Securely |
+
+Night Core ™ — Secure • Autonomous • Verified
 <p align="center">
   <img src="assets/nightcore_logo_tm.png" alt="Night Core™ Logo" width="280"/>
 </p>
+
+<!-- Night Core v38 Verified Summary -->
+### 🧩 Night Core ™ v38 — Verified Build Summary
+
+| Field | Value |
+|-------|-------|
+| **Commit ID** | $commitHash |
+| **Timestamp** | $timestamp |
+| **Audit Hash (SHA-256)** | $auditHash |
+| **Maintainers** | admin1 • admin2 |
+| **Threshold** | 2 / 2 signatures valid |
+| **Status** | ✅ AUFS Chain Verified and Pushed Securely |
+
+Night Core ™ — Secure • Autonomous • Verified
 
 <h1 align="center">Night Core™ — Secure. Autonomous. Verified.</h1>
 
@@ -18,6 +46,20 @@
   <strong>B106 Edition · Rust + Wasmtime v37 + WASI P1 · Ed25519 · MIT Open Core</strong><br/>
   Verifiable Compute Framework for Secure Multi-Tenant Execution
 </p>
+
+<!-- Night Core v38 Verified Summary -->
+### 🧩 Night Core ™ v38 — Verified Build Summary
+
+| Field | Value |
+|-------|-------|
+| **Commit ID** | $commitHash |
+| **Timestamp** | $timestamp |
+| **Audit Hash (SHA-256)** | $auditHash |
+| **Maintainers** | admin1 • admin2 |
+| **Threshold** | 2 / 2 signatures valid |
+| **Status** | ✅ AUFS Chain Verified and Pushed Securely |
+
+Night Core ™ — Secure • Autonomous • Verified
 
 ---
 
@@ -151,4 +193,20 @@ All derivative works must clearly disclose that they are forks of the original
 Night Core framework and may not claim official affiliation.
 
 <p align="center"><i>© 2025 xnfinite — Building the future of verifiable autonomous compute.</i></p>
+
+<!-- Night Core v38 Verified Summary -->
+### 🧩 Night Core ™ v38 — Verified Build Summary
+
+| Field | Value |
+|-------|-------|
+| **Commit ID** | $commitHash |
+| **Timestamp** | $timestamp |
+| **Audit Hash (SHA-256)** | $auditHash |
+| **Maintainers** | admin1 • admin2 |
+| **Threshold** | 2 / 2 signatures valid |
+| **Status** | ✅ AUFS Chain Verified and Pushed Securely |
+
+Night Core ™ — Secure • Autonomous • Verified
+
+
 

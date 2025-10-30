@@ -91,6 +91,7 @@ $safePaths = @(
   'docs/nightcore_overview.txt',
   'tools'
   'README.md'
+  'docs/releases/'
 )
 
 
@@ -232,6 +233,63 @@ if ($content -match $badgeMarker) {
 Set-Content $readmePath -Value $content -Encoding UTF8
 
 Write-Host "✅ README updated with Verified Build Summary for commit $commitHash" -ForegroundColor Green
+
+# === Step 10 – Publish Verified Release to GitHub ===
+Write-Host "`n🚀 Creating Night Core v38 Verified GitHub Release…" -ForegroundColor Cyan
+
+# --- Collect data ---
+$commitHash  = (git rev-parse HEAD).Trim()
+$timestamp   = (Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
+$auditHash   = (Get-Content 'logs/audit.log' -Raw |
+                Select-String -Pattern 'Audit Hash:\s*([A-Fa-f0-9]+)' -AllMatches |
+                Select-Object -Last 1).Matches.Groups[1].Value
+$tag         = "v38-stable-aufs-verified"
+$releaseName = "Night Core™ v38 — AUFS Chain Verified"
+$bodyFile    = "release_body.md"
+
+# --- Build release body from README summary ---
+$summary = Get-Content README.md -Raw | Select-String -Pattern "### 🧩 Night Core" -Context 0,20 | ForEach-Object { $_.Line, $_.Context.PostContext } | Out-String
+$body = @"
+# 🌙 $releaseName
+
+**Commit:** $commitHash  
+**Timestamp:** $timestamp  
+**Audit Hash (SHA-256):** $auditHash  
+
+---
+
+$summary
+
+---
+
+Night Core ™ — Secure • Autonomous • Verified
+"@
+$body | Set-Content -Encoding UTF8 $bodyFile
+
+# --- Verify GitHub CLI availability ---
+if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
+    Write-Host "⚠️  GitHub CLI not installed. Install via 'winget install GitHub.cli' to enable auto-release." -ForegroundColor Yellow
+    return
+}
+
+# --- Create release (idempotent) ---
+Write-Host "🏷️  Publishing release $tag to GitHub…" -ForegroundColor Cyan
+& gh release create $tag `
+    --title $releaseName `
+    --notes-file $bodyFile `
+    --target main `
+    --verify-tag `
+    "logs/audit.log" `
+    "docs/release_notes_v38.md" `
+    "docs/assets/nightcore_logo_tm.png" `
+    --repo "xnfinite/nightcore-worker"
+
+if ($LASTEXITCODE -eq 0) {
+    Write-Host "✅ GitHub Release created successfully!" -ForegroundColor Green
+} else {
+    Write-Host "❌ GitHub Release creation failed (check authentication via 'gh auth login')." -ForegroundColor Red
+}
+
 
 
 
