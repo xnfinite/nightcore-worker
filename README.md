@@ -1,4 +1,14 @@
-﻿<p align="center">
+<!-- Night Core v38 Verified Badge -->
+<p align="center">
+  <img src="docs/assets/nightcore_logo_tm.png" alt="Night Core Logo™" width="220"/>
+  <br/>
+  <a href="https://github.com/xnfinite/nightcore-worker/actions">
+    <img src="https://img.shields.io/badge/AUFS%20Verified-v38-success?style=for-the-badge&color=0B3D91" alt="AUFS Verified"/>
+  </a>
+  <br/>
+  <sub>Night Core™ — Secure • Autonomous • Verified</sub>
+</p>
+<p align="center">
   <img src="assets/nightcore_logo_tm.png" alt="Night Core™ Logo" width="280"/>
 </p>
 
@@ -141,3 +151,4 @@ All derivative works must clearly disclose that they are forks of the original
 Night Core framework and may not claim official affiliation.
 
 <p align="center"><i>© 2025 xnfinite — Building the future of verifiable autonomous compute.</i></p>
+

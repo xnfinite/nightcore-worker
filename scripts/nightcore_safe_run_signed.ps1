@@ -90,6 +90,7 @@ $safePaths = @(
   'src',
   'docs/nightcore_overview.txt',
   'tools'
+  'README.md'
 )
 
 
@@ -189,6 +190,48 @@ if ($content -match "AUFS%20Verified") {
 Set-Content $readmePath -Value $content -Encoding UTF8
 
 Write-Host "✅ README updated with verified badge and trademark logo." -ForegroundColor Green
+
+# === Step 9 – Inject Verified Build Summary into README ===
+Write-Host "`n📜 Updating README with Verified Build Summary…" -ForegroundColor Cyan
+
+$readmePath = "README.md"
+$badgeMarker = "<!-- Night Core v38 Verified Badge -->"
+
+# Collect dynamic data
+$commitHash  = (git rev-parse HEAD).Trim()
+$timestamp   = (Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
+$auditHash   = (Get-Content 'logs/audit.log' -Raw |
+                Select-String -Pattern 'Audit Hash:\s*([A-Fa-f0-9]+)' -AllMatches |
+                Select-Object -Last 1).Matches.Groups[1].Value
+
+$summaryBlock = @"
+<!-- Night Core v38 Verified Summary -->
+### 🧩 Night Core ™ v38 — Verified Build Summary
+
+| Field | Value |
+|-------|-------|
+| **Commit ID** | `$commitHash` |
+| **Timestamp** | `$timestamp` |
+| **Audit Hash (SHA-256)** | `$auditHash` |
+| **Maintainers** | admin1 • admin2 |
+| **Threshold** | 2 / 2 signatures valid |
+| **Status** | ✅ AUFS Chain Verified and Pushed Securely |
+
+Night Core ™ — Secure • Autonomous • Verified
+"@
+
+# Insert summary below existing badge block
+$content = Get-Content $readmePath -Raw
+if ($content -match $badgeMarker) {
+    # Remove any previous summary block to keep it fresh
+    $content = $content -replace "(?s)<!-- Night Core v38 Verified Summary -->.*?(?=\n###|\Z)", ""
+    $content = $content -replace "(?<=</p>)", "`n`n$summaryBlock"
+} else {
+    $content = "$summaryBlock`n$content"
+}
+Set-Content $readmePath -Value $content -Encoding UTF8
+
+Write-Host "✅ README updated with Verified Build Summary for commit $commitHash" -ForegroundColor Green
 
 
 
