@@ -79,16 +79,19 @@ $safePaths = @(
   'README_NOTICE.txt',
   'docs/internal/RELEASE_POLICY.md',
   'docs/internal',
+  'docs/assets',
+  'docs/release_notes_v38.md',
   'modules',
   'modules/tenantA-hello',
   'modules/tenantA-hello/module.wasm',
   'modules/tenantB-math',
   'modules/tenantB-math/module.wasm',
-    'sign_upgrade.rs',
+  'sign_upgrade.rs',
   'src',
-  'docs/nightcore_overview.txt' 
+  'docs/nightcore_overview.txt',
   'tools'
 )
+
 
 
 Write-Host "`n🧠 Checking modified files..." -ForegroundColor Cyan
