@@ -141,4 +141,54 @@ Write-Host "✅ Audit entry appended for commit $commitHash" -ForegroundColor Gr
 
 Write-Host "`n✅ Safe signed run completed successfully!" -ForegroundColor Green
 
+# === Step 8 (Optional) – Append Verified Badge + Trademark Logo to README ===
+Write-Host "`n🪶 Updating README with Night Core v38 Verified Badge (Trademark Logo)..." -ForegroundColor Cyan
+
+# Ensure docs/assets exists
+$assetsDir = "docs/assets"
+if (-not (Test-Path $assetsDir)) {
+    New-Item -ItemType Directory -Force -Path $assetsDir | Out-Null
+}
+
+# Copy logo from official assets folder
+$logoSource = "assets/nightcore_logo_tm.png"
+$logoDest = "docs/assets/nightcore_logo_tm.png"
+if (Test-Path $logoSource) {
+    Copy-Item $logoSource $logoDest -Force
+    Write-Host "🖼️  Trademark logo copied to $logoDest" -ForegroundColor Green
+} else {
+    Write-Host "⚠️  Logo source not found at $logoSource" -ForegroundColor Yellow
+}
+
+# Update README with verified badge and logo
+$readmePath = "README.md"
+if (-not (Test-Path $readmePath)) {
+    New-Item -ItemType File -Path $readmePath | Out-Null
+    Write-Host "📄 README.md created." -ForegroundColor Green
+}
+
+$badgeBlock = @"
+<!-- Night Core v38 Verified Badge -->
+<p align="center">
+  <img src="docs/assets/nightcore_logo_tm.png" alt="Night Core Logo™" width="220"/>
+  <br/>
+  <a href="https://github.com/xnfinite/nightcore-worker/actions">
+    <img src="https://img.shields.io/badge/AUFS%20Verified-v38-success?style=for-the-badge&color=0B3D91" alt="AUFS Verified"/>
+  </a>
+  <br/>
+  <sub>Night Core™ — Secure • Autonomous • Verified</sub>
+</p>
+"@
+
+$content = Get-Content $readmePath -Raw
+if ($content -match "AUFS%20Verified") {
+    $content = $content -replace "(?s)<!-- Night Core v38 Verified Badge -->.*?</p>", $badgeBlock
+} else {
+    $content = "$badgeBlock`n$content"
+}
+Set-Content $readmePath -Value $content -Encoding UTF8
+
+Write-Host "✅ README updated with verified badge and trademark logo." -ForegroundColor Green
+
+
 
