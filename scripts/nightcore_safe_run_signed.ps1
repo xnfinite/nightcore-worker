@@ -84,9 +84,12 @@ $safePaths = @(
   'modules/tenantA-hello/module.wasm',
   'modules/tenantB-math',
   'modules/tenantB-math/module.wasm',
-  'sign_upgrade.rs',
-  'src'
+    'sign_upgrade.rs',
+  'src',
+  'docs/nightcore_overview.txt' 
+  'tools'
 )
+
 
 Write-Host "`n🧠 Checking modified files..." -ForegroundColor Cyan
 $modified = git status --porcelain | ForEach-Object { $_.Trim() -split '\s+' | Select-Object -Last 1 }

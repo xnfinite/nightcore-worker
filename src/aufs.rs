@@ -1,6 +1,6 @@
 use anyhow::{anyhow, Context, Result};
 use base64::{engine::general_purpose::STANDARD, Engine as _};
-use ed25519_dalek::{Signature, VerifyingKey, Verifier};
+use ed25519_dalek::{Signature, VerifyingKey, Verifier, SigningKey, Signer};
 use serde::{Serialize, Deserialize};
 use sha2::{Digest, Sha256};
 use std::{
@@ -32,7 +32,6 @@ pub struct UpgradeManifest {
 pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
     println!("🔄 Running AUFS verification...");
 
-    // --- Step 0: Resolve manifest relative to repo root ---
     let cwd = env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
     let repo_root = cwd
         .ancestors()
@@ -40,7 +39,6 @@ pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
         .unwrap_or(&cwd)
         .to_path_buf();
 
-    // Debug info
     println!("📁 Current working directory: {}", cwd.display());
     println!("📦 Resolved repo root: {}", repo_root.display());
 
@@ -48,10 +46,7 @@ pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
     if !resolved_path.exists() {
         let fallback = repo_root.join("upgrades/manifests/upgrade_manifest.json");
         if fallback.exists() {
-            println!(
-                "📄 Manifest not found at {:?}, using fallback {:?}",
-                manifest_path, fallback
-            );
+            println!("📄 Manifest not found at {:?}, using fallback {:?}", manifest_path, fallback);
             resolved_path = fallback;
         } else {
             return Err(anyhow!(
@@ -62,15 +57,13 @@ pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
         }
     }
 
-    println!("🗂️  Using manifest file: {}", resolved_path.display());
+    println!("🗂️ Using manifest file: {}", resolved_path.display());
 
-    // --- Step 1: Load and parse manifest ---
     let manifest_data = fs::read_to_string(&resolved_path)
         .with_context(|| format!("Failed to read manifest file at {}", resolved_path.display()))?;
     let manifest: UpgradeManifest =
         serde_json::from_str(&manifest_data).context("Failed to parse upgrade manifest JSON")?;
 
-    // --- Step 2: Verify file hashes ---
     for (file, expected_hash) in &manifest.sha256 {
         let file_path = repo_root.join(file);
         if !file_path.exists() {
@@ -89,7 +82,6 @@ pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
         println!("✅ Hash verified for {}", file);
     }
 
-    // --- Step 3: Load maintainer keys ---
     let keys_dir = repo_root.join("keys/maintainers");
     let key_files: Vec<_> = fs::read_dir(&keys_dir)
         .context("Reading maintainer key directory")?
@@ -100,7 +92,6 @@ pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
         return Err(anyhow!("No maintainer keys found in {:?}", keys_dir));
     }
 
-    // --- Step 4: Load signatures (.sig or .b64) ---
     let sig_dir = repo_root.join("upgrades/signatures");
     let sig_files: Vec<_> = fs::read_dir(&sig_dir)
         .context("Reading signatures directory")?
@@ -117,13 +108,10 @@ pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
         return Err(anyhow!("No signatures found in {:?}", sig_dir));
     }
 
-    // --- Step 5: Use raw manifest bytes for signature input ---
-    let payload =
-        fs::read(&resolved_path).context("Failed to read manifest for digest computation")?;
-    let audit_hash = Sha256::digest(&payload); // for log/audit chain
+    let payload = fs::read(&resolved_path).context("Failed to read manifest for digest computation")?;
+    let audit_hash = Sha256::digest(&payload);
     let mut valid_count = 0;
 
-    // --- Step 6: Verify signatures ---
     for sig_entry in &sig_files {
         let sig_path = sig_entry.path();
         let sig_b64 = fs::read_to_string(&sig_path).context("Reading signature file")?;
@@ -152,21 +140,13 @@ pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
 
             if verifying_key.verify(&payload, &signature).is_ok() {
                 valid_count += 1;
-                println!(
-                    "🔐 Valid signature from {}",
-                    key_path.file_name().unwrap().to_string_lossy()
-                );
+                println!("🔐 Valid signature from {}", key_path.file_name().unwrap().to_string_lossy());
                 break;
             }
         }
     }
 
-    // --- Step 7: Enforce threshold ---
-    let required = if manifest.signatures_required == 0 {
-        2
-    } else {
-        manifest.signatures_required
-    };
+    let required = if manifest.signatures_required == 0 { 2 } else { manifest.signatures_required };
     if valid_count < required {
         return Err(anyhow!(
             "AUFS threshold verification failed: only {} valid, need {}",
@@ -175,10 +155,7 @@ pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
         ));
     }
 
-    println!(
-        "✅ AUFS verification passed — {} valid of {} required",
-        valid_count, required
-    );
+    println!("✅ AUFS verification passed — {} valid of {} required", valid_count, required);
     println!("🔗 Audit hash: {}", hex::encode(audit_hash));
 
     Ok(())
@@ -193,3 +170,36 @@ fn compute_sha256(file_path: &Path) -> Result<String> {
     Ok(hex::encode(hasher.finalize()))
 }
 
+/// ✍️  Sign an upgrade manifest with a maintainer's private key.
+pub fn sign_upgrade_manifest(manifest_path: PathBuf, key_path: PathBuf) -> Result<()> {
+    println!("🔏 Signing AUFS manifest: {}", manifest_path.display());
+
+    let manifest_bytes = fs::read(&manifest_path)
+        .with_context(|| format!("Failed to read {}", manifest_path.display()))?;
+
+    let key_b64 = fs::read_to_string(&key_path)
+        .with_context(|| format!("Failed to read key {}", key_path.display()))?;
+    let key_bytes = STANDARD
+        .decode(key_b64.trim())
+        .context("Private key not valid Base64")?;
+    if key_bytes.len() != 32 {
+        return Err(anyhow!("Invalid key length — expected 32 bytes"));
+    }
+
+    let signing_key = SigningKey::from_bytes(&key_bytes.try_into().unwrap());
+    let signature = signing_key.sign(&manifest_bytes);
+
+    let sig_dir = PathBuf::from("upgrades/signatures");
+    fs::create_dir_all(&sig_dir)?;
+    let file_name = format!(
+        "{}_{}.sig.b64",
+        chrono::Local::now().format("v%y%m%d"),
+        key_path.file_stem().unwrap().to_string_lossy()
+    );
+    let out_path = sig_dir.join(file_name);
+
+    fs::write(&out_path, STANDARD.encode(signature.to_bytes()))?;
+    println!("✅ Signed manifest → {}", out_path.display());
+
+    Ok(())
+}

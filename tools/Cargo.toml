@@ -1,0 +1,11 @@
+[package]
+name = "verify_sig"
+version = "0.1.0"
+edition = "2021"
+description = "Night Core — Signature verifier utility (AUFS tooling)"
+license = "MIT"
+authors = ["B106 Labs"]
+
+[dependencies]
+base64 = "0.22"
+ed25519-dalek = "2.2.0"

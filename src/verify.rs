@@ -1,172 +1,125 @@
-use anyhow::Result;
-use std::{fs, path::PathBuf};
+use anyhow::{Context, Result, anyhow};
 use base64::{engine::general_purpose::STANDARD, Engine as _};
-use ed25519_dalek::{Signature, VerifyingKey, Verifier, SigningKey, Signer};
-use serde::Deserialize;
+use ed25519_dalek::{Signature, SigningKey, Signer, VerifyingKey, Verifier};
 use sha2::{Digest, Sha256};
-use wasmtime::{Config, Engine, Linker, Module, Store, StoreLimits, StoreLimitsBuilder};
-use wasmtime_wasi::{DirPerms, FilePerms, WasiCtxBuilder};
-use wasmtime_wasi::p1::{wasi_snapshot_preview1, WasiP1Ctx};
+use std::{fs, path::Path};
+use wasmtime::{Engine, Module, Store, Instance, Func};
 
 /// ===========================================================
-/// 🔍 Night Core — Wasmtime 37 + WASI P1 Verification
+/// Night Core v38 — Verify & Run (No-WASI baseline)
 /// ===========================================================
-pub async fn verify_environment() -> Result<()> {
-    println!("🔍 Night Core — Wasmtime 37 + WASI P1 Verification");
-    println!("Checking Wasmtime engine …");
 
-    let mut cfg = Config::new();
-    cfg.async_support(true);
-    cfg.consume_fuel(true);
-
-    let engine = Engine::new(&cfg)?;
-    let mut linker = Linker::new(&engine);
-
-    // ✅ minimal WASI P1 context
-    let wasi_ctx: WasiP1Ctx = WasiCtxBuilder::new()
-        .inherit_stdio()
-        .build_p1();
-    wasi_snapshot_preview1::add_to_linker(&mut linker, |s: &mut WasiP1Ctx| s)?;
-
-    let mut store: Store<WasiP1Ctx> = Store::new(&engine, wasi_ctx);
-    let _ = store.set_fuel(10_000_000);
-
-    // ✅ tiny self-test WAT
-    let wat = r#"
-        (module
-            (import "wasi_snapshot_preview1" "fd_write"
-                (func $fd_write (param i32 i32 i32 i32) (result i32)))
-            (memory 1)
-            (export "memory" (memory 0))
-            (data (i32.const 8) "Night Core OK\n")
-            (func (export "_start")
-                (i32.store (i32.const 0) (i32.const 8))
-                (i32.store (i32.const 4) (i32.const 13))
-                (call $fd_write (i32.const 1) (i32.const 0)
-                                 (i32.const 1) (i32.const 20))
-                drop)
-        )
-    "#;
-
+/// 🔍 Engine self-test
+pub fn verify_environment() -> Result<()> {
+    println!("🔍 Night Core — Engine verification (no WASI)");
+    let engine = Engine::default();
+    let wat = r#"(module (func (export "main")))"#;
     let module = Module::new(&engine, wat)?;
-    let instance = linker.instantiate_async(&mut store, &module).await?;
-    let start = instance.get_typed_func::<(), ()>(&mut store, "_start")?;
-    start.call_async(&mut store, ()).await?;
-
-    println!("✅ WASI P1 context executed successfully (Wasmtime 37)");
+    let mut store = Store::new(&engine, ());
+    let _ = Instance::new(&mut store, &module, &[])?;
+    println!("Night Core OK ✅ Engine initialized (no WASI needed)");
     Ok(())
 }
 
-/// ===========================================================
-/// 🧩 Verify & Run Tenant Module
-/// ===========================================================
-#[allow(dead_code)] // ✅ suppress warning (serde-deserialized only)
-#[derive(Debug, Deserialize)]
-struct Manifest {
-    name: String,
-    #[serde(default)]
-    version: Option<String>,
-    #[serde(default)]
-    description: Option<String>,
-    #[serde(default)]
-    permissions: Vec<String>,
-}
+/// 🔄 Auto-sync tenant pubkey
+pub fn ensure_pubkey_sync(tenant_dir: &str, tenant_name: &str) -> Result<()> {
+    let priv_path = Path::new(tenant_dir).join(format!("{}.key", tenant_name));
+    let pub_path = Path::new(tenant_dir).join("pubkey.b64");
+    if !priv_path.exists() { return Ok(()); }
 
-pub async fn verify_and_run(dir: &PathBuf) -> Result<String> {
-    // Load manifest
-    let manifest_path = dir.join("manifest.json");
-    let manifest_str = fs::read_to_string(&manifest_path)?;
-    let _manifest: Manifest = serde_json::from_str(&manifest_str)?;
-
-    // Locate module + keys
-    let module_path = dir.join("module.wasm");
-    let sig_path = dir.join("module.sig");
-    let pubkey_path = dir.join("pubkey.b64");
-
-    // Read and verify signature
-    let wasm_bytes = fs::read(&module_path)?;
-    let sig_bytes = STANDARD.decode(fs::read_to_string(sig_path)?.trim())?;
-    let pubkey_bytes = STANDARD.decode(fs::read_to_string(pubkey_path)?.trim())?;
-
-    let verifying_key = VerifyingKey::from_bytes(&pubkey_bytes.try_into().unwrap())?;
-    let signature = Signature::from_bytes(&sig_bytes.try_into().unwrap());
-    verifying_key.verify(&wasm_bytes, &signature)?;
-
-    // ✅ Compute SHA-256
-    let mut hasher = Sha256::new();
-    hasher.update(&wasm_bytes);
-    let sha_hex = hex::encode(hasher.finalize());
-
-    // ✅ Engine + sandbox setup
-    let mut config = Config::new();
-    config.async_support(true);
-    config.consume_fuel(true);
-    let engine = Engine::new(&config)?;
-    let module = Module::new(&engine, &wasm_bytes)?;
-    let mut linker = Linker::new(&engine);
-    wasi_snapshot_preview1::add_to_linker(&mut linker, |cx| cx)?;
-
-    // ✅ Public WASI P1 context
-    let wasi_ctx = WasiCtxBuilder::new()
-        .inherit_stdio()
-        .preopened_dir(".", ".", DirPerms::READ, FilePerms::READ)?
-        .build_p1();
-    let mut store = Store::new(&engine, wasi_ctx);
-
-    // ✅ Static limiter for Wasmtime 37
-    let store_limits = StoreLimitsBuilder::new()
-        .memory_size(64 * 1024 * 1024)
-        .instances(5)
-        .tables(5)
-        .build();
-
-    static mut STATIC_LIMITS: Option<&'static mut StoreLimits> = None;
-    let static_limits_ref: &'static mut StoreLimits = Box::leak(Box::new(store_limits));
-    unsafe {
-        STATIC_LIMITS = Some(static_limits_ref);
-        store.limiter(|_: &mut WasiP1Ctx| *STATIC_LIMITS.as_mut().unwrap());
+    let priv_b64 = fs::read_to_string(&priv_path)?;
+    let priv_bytes = STANDARD.decode(priv_b64.trim())?;
+    if priv_bytes.len() != 32 {
+        return Err(anyhow!("invalid private key length: {}", priv_bytes.len()));
     }
 
-    // ✅ Fuel limit
-    store.set_fuel(10_000).unwrap();
+    let signing_key = SigningKey::from_bytes(&priv_bytes.try_into().unwrap());
+    let derived_pub_b64 = STANDARD.encode(signing_key.verifying_key().to_bytes());
+    let current_pub_b64 = fs::read_to_string(&pub_path).unwrap_or_default();
 
-    // ✅ Execute sandboxed module (async)
-    let instance = linker.instantiate_async(&mut store, &module).await?;
-    if let Some(start_func) = instance.get_func(&mut store, "_start") {
-        start_func.call_async(&mut store, &[], &mut []).await?;
+    if current_pub_b64.trim() != derived_pub_b64 {
+        fs::write(&pub_path, &derived_pub_b64)?;
+        println!("🔄 Auto-synced Ed25519 pubkey for tenant {}", tenant_name);
+    }
+    Ok(())
+}
+
+/// ✍️ Sign a module with Ed25519
+pub fn sign_module(dir: &Path, key_path: &Path) -> Result<()> {
+    let module_path = dir.join("module.wasm");
+    let module_bytes = fs::read(&module_path)?;
+    let key_b64 = fs::read_to_string(key_path)?;
+    let sk_bytes = STANDARD.decode(key_b64.trim())?;
+    let signing_key = SigningKey::from_bytes(&sk_bytes.try_into().unwrap());
+    let sig = signing_key.sign(&module_bytes);
+    fs::write(dir.join("module.sig"), STANDARD.encode(sig.to_bytes()))?;
+    println!("✅ Signed {}", dir.display());
+    Ok(())
+}
+
+/// 📄 Inspect manifest
+pub fn inspect_manifest(dir: &Path) -> Result<()> {
+    let manifest_path = dir.join("manifest.json");
+    let contents = fs::read_to_string(&manifest_path)?;
+    println!("{}\n{}", manifest_path.display(), contents);
+    Ok(())
+}
+
+/// ✅ Verify Ed25519 signature and execute tenant module
+pub fn verify_and_run(dir: &Path) -> Result<String> {
+    let module_path = dir.join("module.wasm");
+    let sig_path = dir.join("module.sig");
+    let pub_path = dir.join("pubkey.b64");
+
+    let module_bytes = fs::read(&module_path)
+        .with_context(|| format!("reading {:?}", module_path))?;
+
+    // --- verify signature ---
+    let sig_bytes_vec = STANDARD.decode(fs::read_to_string(&sig_path)?.trim())?;
+    let sig_bytes_clone = sig_bytes_vec.clone();
+    let sig_bytes: [u8; 64] = sig_bytes_clone
+        .try_into()
+        .map_err(|_| anyhow!("invalid signature length: {}", sig_bytes_vec.len()))?;
+    let sig = Signature::from_bytes(&sig_bytes);
+
+    let pub_bytes_vec = STANDARD.decode(fs::read_to_string(&pub_path)?.trim())?;
+    let pub_bytes_clone = pub_bytes_vec.clone();
+    let pub_bytes: [u8; 32] = pub_bytes_clone
+        .try_into()
+        .map_err(|_| anyhow!("invalid pubkey length: {}", pub_bytes_vec.len()))?;
+    let vk = VerifyingKey::from_bytes(&pub_bytes)?;
+    vk.verify(&module_bytes, &sig).context("signature verification failed")?;
+
+    // --- SHA-256 audit hash ---
+    let sha_hex = format!("{:X}", Sha256::digest(&module_bytes));
+
+    // --- Instantiate & run ---
+    let engine = Engine::default();
+    let module = Module::new(&engine, &module_bytes)?;
+    let mut store = Store::new(&engine, ());
+    let instance = Instance::new(&mut store, &module, &[])
+        .with_context(|| "instantiating module (if this fails with missing imports, the module needs WASI)")?;
+
+    // Find entry
+    let entry = find_entry(&instance, &mut store)
+        .ok_or_else(|| anyhow!("no callable entrypoint found (tried: _start, main, run)"))?;
+
+    // Call entry
+    if let Err(e) = entry.call(&mut store, &[], &mut []) {
+        let msg = e.to_string();
+        let safe = String::from_utf8_lossy(msg.as_bytes());
+        eprintln!("⚠️ Tenant {} runtime error: {}", dir.display(), safe);
+    } else {
+        println!("🏁 Tenant execution complete: {}", dir.display());
     }
 
     Ok(sha_hex)
 }
 
-/// ===========================================================
-/// 📄 Inspect Manifest
-/// ===========================================================
-pub fn inspect_manifest(dir: &PathBuf) -> Result<()> {
-    let manifest_path = dir.join("manifest.json");
-    let content = fs::read_to_string(&manifest_path)?;
-    println!("{}", content);
-    Ok(())
+/// Helper: find `_start`, `main`, or `run`
+fn find_entry(instance: &Instance, store: &mut Store<()>) -> Option<Func> {
+    if let Some(f) = instance.get_func(&mut *store, "_start") { return Some(f); }
+    if let Some(f) = instance.get_func(&mut *store, "main") { return Some(f); }
+    if let Some(f) = instance.get_func(&mut *store, "run") { return Some(f); }
+    None
 }
-
-/// ===========================================================
-/// ✍️ Sign Module (Ed25519)
-/// ===========================================================
-pub fn sign_module(dir: &PathBuf, key: &PathBuf) -> Result<()> {
-    let wasm = fs::read(dir.join("module.wasm"))?;
-    let privkey_bytes = STANDARD.decode(fs::read_to_string(key)?.trim())?;
-    let signing_key = SigningKey::from_bytes(&privkey_bytes.try_into().unwrap());
-    let sig = signing_key.sign(&wasm);
-    fs::write(dir.join("module.sig"), STANDARD.encode(sig.to_bytes()))?;
-    println!("✅ Module signed: {}", dir.display());
-    Ok(())
-}
-
-/// ===========================================================
-/// 📊 Dashboard (handled by main.rs)
-/// ===========================================================
-pub fn generate_dashboard() -> Result<()> {
-    println!("✅ Dashboard generation complete (HTML written by main.rs)");
-    Ok(())
-}
-

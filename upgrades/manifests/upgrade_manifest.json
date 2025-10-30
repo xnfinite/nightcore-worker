@@ -8,8 +8,8 @@
     "modules/tenantB-math/module.wasm"
   ],
   "sha256": {
-    "modules/tenantA-hello/module.wasm": "B94AD6E99AE250AD3248A10115F1F9E2BBB79F29FEFBDB4AD659E860123204FD",
-    "modules/tenantB-math/module.wasm": "B94AD6E99AE250AD3248A10115F1F9E2BBB79F29FEFBDB4AD659E860123204FD"
+    "modules/tenantA-hello/module.wasm": "1a170b4c05434da10afb66e3742ce7be77cf46ae4c8df5fa8ef3a0ec4cf72a91",
+    "modules/tenantB-math/module.wasm": "4f6e684892724a5436a441826063ae169f2b293678b4322fcbf73b376c90d566"
   },
   "keys": [
     "keys/maintainers/admin1.pub",

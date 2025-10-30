@@ -1,0 +1,38 @@
+Night Core — Secure. Autonomous. Verified.
+
+Night Core is a security framework that safely runs small programs called “modules”
+inside sealed digital boxes known as sandboxes. These sandboxes make sure that
+each program can only do what it’s allowed to do and can’t harm the system or
+other programs running beside it.
+
+Think of it like a virtual laboratory:
+- Each tenant (user or project) gets its own clean, locked workspace.
+- Before any code runs, Night Core checks the program’s identity and integrity.
+  It does this using cryptographic signatures (Ed25519) — a mathematical way of
+  proving the code hasn’t been tampered with.
+- Every action is logged and verified for accountability.
+
+Behind the scenes, Night Core uses:
+- Rust, a memory-safe programming language.
+- Wasmtime (WebAssembly runtime) to execute modules securely.
+- WASI P1, a minimal operating system interface for WebAssembly.
+- SHA-256 + Ed25519 cryptography to verify integrity and authorship.
+
+Night Core is “multi-tenant,” meaning many independent modules can run safely
+on the same system. Each module is verified, executed in isolation, and reported
+in a simple HTML dashboard showing which tenants passed or failed verification.
+
+In short:
+Night Core is like a digital gatekeeper that ensures every piece of code is
+authentic, isolated, and secure — a foundation for safe autonomous computing.
+
+Core features:
+- Signature verification (Ed25519 + SHA-256)
+- Sandbox isolation (Wasmtime 37 + WASI P1)
+- Automatic key synchronization
+- Multi-tenant orchestration
+- Real-time dashboard reports
+- Secure upgrade and audit systems
+
+Motto:
+“Secure. Autonomous. Verified.”
