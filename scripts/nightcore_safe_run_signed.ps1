@@ -79,8 +79,6 @@ $safePaths = @(
   'README_NOTICE.txt',
   'docs/internal/RELEASE_POLICY.md',
   'docs/internal',
-  'docs/assets',
-  'docs/release_notes_v38.md',
   'modules',
   'modules/tenantA-hello',
   'modules/tenantA-hello/module.wasm',
@@ -88,13 +86,13 @@ $safePaths = @(
   'modules/tenantB-math/module.wasm',
   'sign_upgrade.rs',
   'src',
+  'tools',
   'docs/nightcore_overview.txt',
-  'tools'
+  'docs/assets',
+  'docs/release_notes_v38.md'
   'README.md'
-  'docs/releases/'
+  'release_body.md'
 )
-
-
 
 Write-Host "`n🧠 Checking modified files..." -ForegroundColor Cyan
 $modified = git status --porcelain | ForEach-Object { $_.Trim() -split '\s+' | Select-Object -Last 1 }
@@ -142,154 +140,3 @@ Add-Content -Encoding UTF8 "logs/audit.log" $auditEntry
 Write-Host "✅ Audit entry appended for commit $commitHash" -ForegroundColor Green
 
 Write-Host "`n✅ Safe signed run completed successfully!" -ForegroundColor Green
-
-# === Step 8 (Optional) – Append Verified Badge + Trademark Logo to README ===
-Write-Host "`n🪶 Updating README with Night Core v38 Verified Badge (Trademark Logo)..." -ForegroundColor Cyan
-
-# Ensure docs/assets exists
-$assetsDir = "docs/assets"
-if (-not (Test-Path $assetsDir)) {
-    New-Item -ItemType Directory -Force -Path $assetsDir | Out-Null
-}
-
-# Copy logo from official assets folder
-$logoSource = "assets/nightcore_logo_tm.png"
-$logoDest = "docs/assets/nightcore_logo_tm.png"
-if (Test-Path $logoSource) {
-    Copy-Item $logoSource $logoDest -Force
-    Write-Host "🖼️  Trademark logo copied to $logoDest" -ForegroundColor Green
-} else {
-    Write-Host "⚠️  Logo source not found at $logoSource" -ForegroundColor Yellow
-}
-
-# Update README with verified badge and logo
-$readmePath = "README.md"
-if (-not (Test-Path $readmePath)) {
-    New-Item -ItemType File -Path $readmePath | Out-Null
-    Write-Host "📄 README.md created." -ForegroundColor Green
-}
-
-$badgeBlock = @"
-<!-- Night Core v38 Verified Badge -->
-<p align="center">
-  <img src="docs/assets/nightcore_logo_tm.png" alt="Night Core Logo™" width="220"/>
-  <br/>
-  <a href="https://github.com/xnfinite/nightcore-worker/actions">
-    <img src="https://img.shields.io/badge/AUFS%20Verified-v38-success?style=for-the-badge&color=0B3D91" alt="AUFS Verified"/>
-  </a>
-  <br/>
-  <sub>Night Core™ — Secure • Autonomous • Verified</sub>
-</p>
-"@
-
-$content = Get-Content $readmePath -Raw
-if ($content -match "AUFS%20Verified") {
-    $content = $content -replace "(?s)<!-- Night Core v38 Verified Badge -->.*?</p>", $badgeBlock
-} else {
-    $content = "$badgeBlock`n$content"
-}
-Set-Content $readmePath -Value $content -Encoding UTF8
-
-Write-Host "✅ README updated with verified badge and trademark logo." -ForegroundColor Green
-
-# === Step 9 – Inject Verified Build Summary into README ===
-Write-Host "`n📜 Updating README with Verified Build Summary…" -ForegroundColor Cyan
-
-$readmePath = "README.md"
-$badgeMarker = "<!-- Night Core v38 Verified Badge -->"
-
-# Collect dynamic data
-$commitHash  = (git rev-parse HEAD).Trim()
-$timestamp   = (Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
-$auditHash   = (Get-Content 'logs/audit.log' -Raw |
-                Select-String -Pattern 'Audit Hash:\s*([A-Fa-f0-9]+)' -AllMatches |
-                Select-Object -Last 1).Matches.Groups[1].Value
-
-$summaryBlock = @"
-<!-- Night Core v38 Verified Summary -->
-### 🧩 Night Core ™ v38 — Verified Build Summary
-
-| Field | Value |
-|-------|-------|
-| **Commit ID** | `$commitHash` |
-| **Timestamp** | `$timestamp` |
-| **Audit Hash (SHA-256)** | `$auditHash` |
-| **Maintainers** | admin1 • admin2 |
-| **Threshold** | 2 / 2 signatures valid |
-| **Status** | ✅ AUFS Chain Verified and Pushed Securely |
-
-Night Core ™ — Secure • Autonomous • Verified
-"@
-
-# Insert summary below existing badge block
-$content = Get-Content $readmePath -Raw
-if ($content -match $badgeMarker) {
-    # Remove any previous summary block to keep it fresh
-    $content = $content -replace "(?s)<!-- Night Core v38 Verified Summary -->.*?(?=\n###|\Z)", ""
-    $content = $content -replace "(?<=</p>)", "`n`n$summaryBlock"
-} else {
-    $content = "$summaryBlock`n$content"
-}
-Set-Content $readmePath -Value $content -Encoding UTF8
-
-Write-Host "✅ README updated with Verified Build Summary for commit $commitHash" -ForegroundColor Green
-
-# === Step 10 – Publish Verified Release to GitHub ===
-Write-Host "`n🚀 Creating Night Core v38 Verified GitHub Release…" -ForegroundColor Cyan
-
-# --- Collect data ---
-$commitHash  = (git rev-parse HEAD).Trim()
-$timestamp   = (Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
-$auditHash   = (Get-Content 'logs/audit.log' -Raw |
-                Select-String -Pattern 'Audit Hash:\s*([A-Fa-f0-9]+)' -AllMatches |
-                Select-Object -Last 1).Matches.Groups[1].Value
-$tag         = "v38-stable-aufs-verified"
-$releaseName = "Night Core™ v38 — AUFS Chain Verified"
-$bodyFile    = "release_body.md"
-
-# --- Build release body from README summary ---
-$summary = Get-Content README.md -Raw | Select-String -Pattern "### 🧩 Night Core" -Context 0,20 | ForEach-Object { $_.Line, $_.Context.PostContext } | Out-String
-$body = @"
-# 🌙 $releaseName
-
-**Commit:** $commitHash  
-**Timestamp:** $timestamp  
-**Audit Hash (SHA-256):** $auditHash  
-
----
-
-$summary
-
----
-
-Night Core ™ — Secure • Autonomous • Verified
-"@
-$body | Set-Content -Encoding UTF8 $bodyFile
-
-# --- Verify GitHub CLI availability ---
-if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
-    Write-Host "⚠️  GitHub CLI not installed. Install via 'winget install GitHub.cli' to enable auto-release." -ForegroundColor Yellow
-    return
-}
-
-# --- Create release (idempotent) ---
-Write-Host "🏷️  Publishing release $tag to GitHub…" -ForegroundColor Cyan
-& gh release create $tag `
-    --title $releaseName `
-    --notes-file $bodyFile `
-    --target main `
-    --verify-tag `
-    "logs/audit.log" `
-    "docs/release_notes_v38.md" `
-    "docs/assets/nightcore_logo_tm.png" `
-    --repo "xnfinite/nightcore-worker"
-
-if ($LASTEXITCODE -eq 0) {
-    Write-Host "✅ GitHub Release created successfully!" -ForegroundColor Green
-} else {
-    Write-Host "❌ GitHub Release creation failed (check authentication via 'gh auth login')." -ForegroundColor Red
-}
-
-
-
-

@@ -1,3 +1,11 @@
+# 🌙 Night Core™ v38 — AUFS Chain Verified
+
+**Commit:** 17919bcdfc12feb56d52700d3393decd81223d0e  
+**Timestamp:** 2025-10-30 00:56:27  
+**Audit Hash (SHA-256):** 054DB10191506AC01D9464E08191721EB3CCD730E49B59C5DB2F97E6C774B861  
+
+---
+
 <!-- Night Core v38 Verified Badge -->
 <p align="center">
   <img src="docs/assets/nightcore_logo_tm.png" alt="Night Core Logo™" width="220"/>
@@ -268,3 +276,9 @@ Night Core ™ — Secure • Autonomous • Verified
 
 
 
+
+
+
+---
+
+Night Core ™ — Secure • Autonomous • Verified
