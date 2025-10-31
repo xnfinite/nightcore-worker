@@ -7,7 +7,8 @@ use base64::{engine::general_purpose::STANDARD, Engine as _};
 use sha2::{Sha256, Digest};
 
 mod verify;
-mod aufs; // ✅ AUFS integration
+mod aufs;
+mod sign_tenant; // ✅ Added: restored Ed25519 signer module
 
 /// ===========================================================
 /// 🧭 Night Core CLI — Secure. Autonomous. Verified.
@@ -123,7 +124,8 @@ fn main() -> Result<()> {
 
         // ===================================================
         Commands::Sign { dir, key } => {
-            verify::sign_module(&dir, &key)?;
+            // ✅ Restored direct link to sign_tenant.rs (not verify)
+            sign_tenant::sign_tenant(&dir, &key)?;
         }
 
         // ===================================================
@@ -179,4 +181,3 @@ fn main() -> Result<()> {
     println!("✨ Night Core execution complete.\n");
     Ok(())
 }
-
