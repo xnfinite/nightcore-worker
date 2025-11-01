@@ -82,7 +82,9 @@ cargo run -- --help
 - [docs/legacy/Night_Core_Chronicle.md](docs/legacy/Night_Core_Chronicle.md) — Founder’s Chronicle (Proof Log)  
 - [docs/provenance/nightcore_v38_provenance.html](docs/provenance/nightcore_v38_provenance.html) — Cryptographic provenance record  
 - [docs/releases/v38.html](docs/releases/v38.html) — Release Dashboard  
-- [assets/nightcore_logo_tm.png](assets/nightcore_logo_tm.png) — Verified Logo Asset  
+- [assets/nightcore_logo_tm.png](assets/nightcore_logo_tm.png) — Verified Logo Asset
+- [docs/HOW_TO_GUIDE.md](docs/HOW_TO_GUIDE.md) — Full setup and usage instructions
+
 
 ---
 
