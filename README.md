@@ -107,10 +107,11 @@ Night Core is designed for native deployment on AWS Cloud infrastructure:
 
 ## 🧭 Development Roadmap
 **Phase 1️⃣** Night Core Baseline — Wasmtime 37 + WASI P1 + Ed25519 verified execution → ✅ Complete  
-**Phase 2️⃣** AUFS — Autonomous Upgrade & Fork System → 🚧 In Progress  
-**Phase 3️⃣** Guardian — AI Containment Kernel (fuel + rollback + drift) → 🧠 Pioneer Layer  
-**Phase 4️⃣** Night Mesh — Distributed proof sync → 🔄 Planned  
-**Phase 5️⃣** Vesper — Self-Documenting AI Agent → 💬 Final Layer  
+**Phase 2️⃣** AUFS — Autonomous Upgrade & Fork System → ✅ Complete (verified in v38 Stable)  
+**Phase 3️⃣** Guardian — AI Containment Kernel (fuel + rollback + drift) → 🚧 In Progress  
+**Phase 4️⃣** Night Mesh — Distributed proof sync and audit sharing → 🔄 Planned  
+**Phase 5️⃣** Vesper — Self-Documenting AI Agent → 💬 Planned (final layer)
+ 
 
 ---
 
