@@ -27,6 +27,8 @@ enum Commands {
     Run {
         #[arg(long)]
         all: bool,
+        #[arg(long)]
+        proof: bool, // ✅ NEW: toggle proof-only verification mode
         path: Option<PathBuf>,
     },
 
@@ -79,7 +81,7 @@ fn main() -> Result<()> {
         }
 
         // ===================================================
-        Commands::Run { all, path } => {
+        Commands::Run { all, proof, path } => { // ✅ added `proof`
             if all {
                 let modules_dir = PathBuf::from("modules");
                 for entry in fs::read_dir(&modules_dir)
@@ -98,7 +100,8 @@ fn main() -> Result<()> {
                         eprintln!("⚠️ Pubkey sync failed for {}: {}", tenant_name, e);
                     }
 
-                    match verify::verify_and_run(&tenant_dir) {
+                    // ✅ pass proof flag into verification
+                    match verify::verify_and_run(&tenant_dir, proof) {
                         Ok(sha) => println!("✅ Tenant OK: {} (sha {})", tenant_name, sha),
                         Err(e) => println!("❌ Tenant {} failed: {}", tenant_name, e),
                     }
@@ -115,10 +118,11 @@ fn main() -> Result<()> {
                     eprintln!("⚠️ Pubkey sync failed: {}", e);
                 }
 
-                let sha = verify::verify_and_run(&p)?;
+                // ✅ pass proof flag into single module run
+                let sha = verify::verify_and_run(&p, proof)?;
                 println!("✅ {} executed successfully (sha {})", tenant_name, sha);
             } else {
-                println!("⚙️ Usage: nightcore run --all OR --path <tenant_dir>");
+                println!("⚙️ Usage: nightcore run --all [--proof] OR --path <tenant_dir> [--proof]");
             }
         }
 

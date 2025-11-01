@@ -48,3 +48,5 @@ It is designed to align with modern zero-trust, AUFS, and AWS Nitro Enclave secu
 ---
 
 <p align="center"><i>© 2025 Gabriel Ginn — Threat modeling built for verifiable compute.</i></p>
+
+

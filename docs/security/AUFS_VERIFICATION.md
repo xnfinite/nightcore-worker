@@ -35,7 +35,6 @@ This document certifies that **v38** has successfully passed all verification st
 
 ## 🧮 Verification Trace
 
-
 ---
 
 ## 🧠 Notes
@@ -55,3 +54,5 @@ Any subsequent modification or AUFS manifest must produce a **new audit hash** a
 
 **Night Core™ — Secure. Autonomous. Verified.**  
 _B106 Edition • AUFS v1.0 • Wasmtime 37 + WASI P1_
+
+

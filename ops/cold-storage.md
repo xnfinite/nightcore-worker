@@ -50,3 +50,5 @@ Cold storage ensures that even in catastrophic events, **keys, proofs, and audit
 
 1. AUFS performs automated **proof bundle** export:
    - `proof/` → SBOM, attestation
+
+

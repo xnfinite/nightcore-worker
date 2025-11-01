@@ -2,7 +2,7 @@
   <img src="../assets/nightcore_logo_tm.png" alt="Night Core Logo" width="280"/>
 </p>
 
-<h1 align="center">Night Core™ AUFS — Autonomous Upgrade & Fork System</h1>
+<h1 align="center">Night Coreï¿½ AUFS ï¿½ Autonomous Upgrade & Fork System</h1>
 
 <p align="center">
   <strong>Threshold-Signed  Self-Healing  Tamper-Evident</strong>
@@ -39,3 +39,5 @@ AUFS ensures the Night Core framework can:
 - Enable reproducible forks for verified downstream ecosystems
 
 <p align="center"><i>Part of the Night Core Secure Compute Stack.</i></p>
+
+

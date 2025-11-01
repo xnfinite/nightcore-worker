@@ -47,3 +47,5 @@ By default:
 ---
 
 <p align="center"><i>© 2025 Gabriel Ginn — Governance built for verifiable autonomy.</i></p>
+
+

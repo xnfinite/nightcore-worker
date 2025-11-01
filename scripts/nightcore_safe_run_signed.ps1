@@ -185,6 +185,10 @@ $safePaths = @(
   'docs/provenance',
   'docs/provenance/nightcore_v38_provenance.html'
   'docs/release_notes_v38.md'
+  'docs/assets/nightcore_logo_tm.png'
+  'CHANGELOG.md'
+  'README.md'
+  'ROADMAP.md'
 )
 
 Write-Host "`n🧠 Checking modified files..." -ForegroundColor Cyan
