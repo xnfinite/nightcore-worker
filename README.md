@@ -10,63 +10,65 @@
 </p>
 
 <!-- Night Core v38 Verified Summary -->
-### 🧩 Night Core ™ v38 — Verified Build Summary
+### 🧩 Night Core™ v38 — Verified Build Summary
 
 | Field | Value |
 |-------|-------|
-| **Commit ID** | $commitHash |
-| **Timestamp** | $timestamp |
-| **Audit Hash (SHA-256)** | $auditHash |
-| **Maintainers** | admin1 • admin2 |
-| **Threshold** | 2 / 2 signatures valid |
-| **Status** | ✅ AUFS Chain Verified and Pushed Securely |
+| **Commit ID** | 26c43b3 |
+| **Timestamp** | 2025-10-31 21 |
+| **Audit Hash** | 6dfaebee909b96f077e0d668b5c401d68ee44bbe3937e647f8aafe12dbf06cb5 |
+| **Maintainers** | core-ops • system-check |
+| **Status** | ✅ Verified |
 
-Night Core ™ — Secure • Autonomous • Verified
+Night Core™ — Secure • Autonomous • Verified Build Summary |
 
+Night Core™ — Secure • Autonomous • Verified
 
-### 🧩 Night Core ™ v38 — Verified Build Summary
+### 🧩 Night Core™ v38 — Verified Build Summary
 
 | Field | Value |
 |-------|-------|
-| **Commit ID** | $commitHash |
-| **Timestamp** | $timestamp |
-| **Audit Hash (SHA-256)** | $auditHash |
-| **Maintainers** | admin1 • admin2 |
-| **Threshold** | 2 / 2 signatures valid |
-| **Status** | ✅ AUFS Chain Verified and Pushed Securely |
+| **Commit ID** | 26c43b3 |
+| **Timestamp** | 2025-10-31 21 |
+| **Audit Hash** | 6dfaebee909b96f077e0d668b5c401d68ee44bbe3937e647f8aafe12dbf06cb5 |
+| **Maintainers** | core-ops • system-check |
+| **Status** | ✅ Verified |
 
-Night Core ™ — Secure • Autonomous • Verified
+Night Core™ — Secure • Autonomous • Verified Build Summary |
+
+Night Core™ — Secure • Autonomous • Verified
 <p align="center">
   <img src="assets/nightcore_logo_tm.png" alt="Night Core™ Logo" width="280"/>
 </p>
 
 <!-- Night Core v38 Verified Summary -->
-### 🧩 Night Core ™ v38 — Verified Build Summary
+### 🧩 Night Core™ v38 — Verified Build Summary
 
 | Field | Value |
 |-------|-------|
-| **Commit ID** | $commitHash |
-| **Timestamp** | $timestamp |
-| **Audit Hash (SHA-256)** | $auditHash |
-| **Maintainers** | admin1 • admin2 |
-| **Threshold** | 2 / 2 signatures valid |
-| **Status** | ✅ AUFS Chain Verified and Pushed Securely |
+| **Commit ID** | 26c43b3 |
+| **Timestamp** | 2025-10-31 21 |
+| **Audit Hash** | 6dfaebee909b96f077e0d668b5c401d68ee44bbe3937e647f8aafe12dbf06cb5 |
+| **Maintainers** | core-ops • system-check |
+| **Status** | ✅ Verified |
 
-Night Core ™ — Secure • Autonomous • Verified
+Night Core™ — Secure • Autonomous • Verified Build Summary |
 
+Night Core™ — Secure • Autonomous • Verified
 
-### 🧩 Night Core ™ v38 — Verified Build Summary
+### 🧩 Night Core™ v38 — Verified Build Summary
 
 | Field | Value |
 |-------|-------|
-| **Commit ID** | $commitHash |
-| **Timestamp** | $timestamp |
-| **Audit Hash (SHA-256)** | $auditHash |
-| **Maintainers** | admin1 • admin2 |
-| **Threshold** | 2 / 2 signatures valid |
-| **Status** | ✅ AUFS Chain Verified and Pushed Securely |
+| **Commit ID** | 26c43b3 |
+| **Timestamp** | 2025-10-31 21 |
+| **Audit Hash** | 6dfaebee909b96f077e0d668b5c401d68ee44bbe3937e647f8aafe12dbf06cb5 |
+| **Maintainers** | core-ops • system-check |
+| **Status** | ✅ Verified |
 
-Night Core ™ — Secure • Autonomous • Verified
+Night Core™ — Secure • Autonomous • Verified Build Summary |
+
+Night Core™ — Secure • Autonomous • Verified
 
 <h1 align="center">Night Core™ — Secure. Autonomous. Verified.</h1>
 
@@ -76,32 +78,33 @@ Night Core ™ — Secure • Autonomous • Verified
 </p>
 
 <!-- Night Core v38 Verified Summary -->
-### 🧩 Night Core ™ v38 — Verified Build Summary
+### 🧩 Night Core™ v38 — Verified Build Summary
 
 | Field | Value |
 |-------|-------|
-| **Commit ID** | $commitHash |
-| **Timestamp** | $timestamp |
-| **Audit Hash (SHA-256)** | $auditHash |
-| **Maintainers** | admin1 • admin2 |
-| **Threshold** | 2 / 2 signatures valid |
-| **Status** | ✅ AUFS Chain Verified and Pushed Securely |
+| **Commit ID** | 26c43b3 |
+| **Timestamp** | 2025-10-31 21 |
+| **Audit Hash** | 6dfaebee909b96f077e0d668b5c401d68ee44bbe3937e647f8aafe12dbf06cb5 |
+| **Maintainers** | core-ops • system-check |
+| **Status** | ✅ Verified |
 
-Night Core ™ — Secure • Autonomous • Verified
+Night Core™ — Secure • Autonomous • Verified Build Summary |
 
+Night Core™ — Secure • Autonomous • Verified
 
-### 🧩 Night Core ™ v38 — Verified Build Summary
+### 🧩 Night Core™ v38 — Verified Build Summary
 
 | Field | Value |
 |-------|-------|
-| **Commit ID** | $commitHash |
-| **Timestamp** | $timestamp |
-| **Audit Hash (SHA-256)** | $auditHash |
-| **Maintainers** | admin1 • admin2 |
-| **Threshold** | 2 / 2 signatures valid |
-| **Status** | ✅ AUFS Chain Verified and Pushed Securely |
+| **Commit ID** | 26c43b3 |
+| **Timestamp** | 2025-10-31 21 |
+| **Audit Hash** | 6dfaebee909b96f077e0d668b5c401d68ee44bbe3937e647f8aafe12dbf06cb5 |
+| **Maintainers** | core-ops • system-check |
+| **Status** | ✅ Verified |
 
-Night Core ™ — Secure • Autonomous • Verified
+Night Core™ — Secure • Autonomous • Verified Build Summary |
+
+Night Core™ — Secure • Autonomous • Verified
 
 ---
 
@@ -237,32 +240,36 @@ Night Core framework and may not claim official affiliation.
 <p align="center"><i>© 2025 xnfinite — Building the future of verifiable autonomous compute.</i></p>
 
 <!-- Night Core v38 Verified Summary -->
-### 🧩 Night Core ™ v38 — Verified Build Summary
+### 🧩 Night Core™ v38 — Verified Build Summary
 
 | Field | Value |
 |-------|-------|
-| **Commit ID** | $commitHash |
-| **Timestamp** | $timestamp |
-| **Audit Hash (SHA-256)** | $auditHash |
-| **Maintainers** | admin1 • admin2 |
-| **Threshold** | 2 / 2 signatures valid |
-| **Status** | ✅ AUFS Chain Verified and Pushed Securely |
+| **Commit ID** | 26c43b3 |
+| **Timestamp** | 2025-10-31 21 |
+| **Audit Hash** | 6dfaebee909b96f077e0d668b5c401d68ee44bbe3937e647f8aafe12dbf06cb5 |
+| **Maintainers** | core-ops • system-check |
+| **Status** | ✅ Verified |
 
-Night Core ™ — Secure • Autonomous • Verified
+Night Core™ — Secure • Autonomous • Verified Build Summary |
 
+Night Core™ — Secure • Autonomous • Verified
 
-### 🧩 Night Core ™ v38 — Verified Build Summary
+### 🧩 Night Core™ v38 — Verified Build Summary
 
 | Field | Value |
 |-------|-------|
-| **Commit ID** | $commitHash |
-| **Timestamp** | $timestamp |
-| **Audit Hash (SHA-256)** | $auditHash |
-| **Maintainers** | admin1 • admin2 |
-| **Threshold** | 2 / 2 signatures valid |
-| **Status** | ✅ AUFS Chain Verified and Pushed Securely |
+| **Commit ID** | 26c43b3 |
+| **Timestamp** | 2025-10-31 21 |
+| **Audit Hash** | 6dfaebee909b96f077e0d668b5c401d68ee44bbe3937e647f8aafe12dbf06cb5 |
+| **Maintainers** | core-ops • system-check |
+| **Status** | ✅ Verified |
 
-Night Core ™ — Secure • Autonomous • Verified
+Night Core™ — Secure • Autonomous • Verified Build Summary |
+
+Night Core™ — Secure • Autonomous • Verified
+
+
+
 
 
 
