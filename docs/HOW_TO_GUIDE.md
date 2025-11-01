@@ -26,22 +26,22 @@ This guide provides a complete walkthrough — from build to tenant signing, AUF
 
 ### Project Layout
 ```
-C:\Users\gabeg\source\repos\worker
+worker/
 │   Cargo.toml
 │   README.md
 │
-├── src\
+├── src/
 │   ├── main.rs
 │   └── sign_tenant.rs
 │
-├── modules\
-│   ├── tenantA-hello\
-│   └── tenantB-math\
+├── modules/
+│   ├── tenantA-hello/
+│   └── tenantB-math/
 │
-├── keys\
-│   └── maintainers\
+├── keys/
+│   └── maintainers/
 │
-└── logs\
+└── logs/
 ```
 
 ---
@@ -56,7 +56,7 @@ cargo +nightly run -- generate-keys --out-dir keys/maintainers
 ```bash
 cargo +nightly run -- sign --dir modules/tenantA-hello --key keys/maintainers/admin1.key
 ```
-Outputs → `module.sig`  `pubkey.b64`  `module.sha256`
+Outputs → `module.sig` • `pubkey.b64` • `module.sha256`
 
 ---
 
