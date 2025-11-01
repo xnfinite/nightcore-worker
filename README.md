@@ -20,6 +20,24 @@
 
 ---
 
+### 🧾 Night Core™ v38 — Verified Proof Report
+
+Below is the verified output from **Night Core™ v38 Proof Mode**, confirming Ed25519 signature and SHA-256 integrity for both tenant modules.
+
+<p align="center">
+  <img src="assets/nightcore_v38_proof_report.png" width="800" alt="Night Core v38 Proof Report"/>
+  <br/>
+  <sub><b>Night Core™ v38 — Verified Proof Report (Tenant A & Tenant B)</b></sub>
+</p>
+
+- ✅ **tenantA-hello** — SHA-256: `540ABD3C9046EF5C6C55463CB77AEA2FB13A398E46FFDCF6B91B64C976141291`  
+- ✅ **tenantB-math** — SHA-256: `4F6E684892724A5436A441826063AE169F2B293678B4322FCBF73B376C90D566`  
+- 🕒 **Timestamp:** 2025-11-01 13:04 UTC  
+- 🧾 **Maintainers:** core-ops • system-check  
+- 🔏 **Verified via:** `cargo +nightly run -- run --all --proof`
+
+---
+
 ## 🌑 Overview
 Night Core™ is an open-source, enterprise-grade WebAssembly orchestration framework written in Rust.  
 It verifies, isolates, and executes signed `.wasm` modules in secure sandboxes — supporting multi-tenant workloads, self-healing upgrades, and cryptographic proof of integrity.
@@ -82,9 +100,8 @@ cargo run -- --help
 - [docs/legacy/Night_Core_Chronicle.md](docs/legacy/Night_Core_Chronicle.md) — Founder’s Chronicle (Proof Log)  
 - [docs/provenance/nightcore_v38_provenance.html](docs/provenance/nightcore_v38_provenance.html) — Cryptographic provenance record  
 - [docs/releases/v38.html](docs/releases/v38.html) — Release Dashboard  
-- [assets/nightcore_logo_tm.png](assets/nightcore_logo_tm.png) — Verified Logo Asset
-- [docs/HOW_TO_GUIDE.md](docs/HOW_TO_GUIDE.md) — Full setup and usage instructions
-
+- [assets/nightcore_logo_tm.png](assets/nightcore_logo_tm.png) — Verified Logo Asset  
+- [docs/HOW_TO_GUIDE.md](docs/HOW_TO_GUIDE.md) — Full setup and usage instructions  
 
 ---
 
@@ -113,7 +130,6 @@ Night Core is designed for native deployment on AWS Cloud infrastructure:
 **Phase 3️⃣** Guardian — AI Containment Kernel (fuel + rollback + drift) → 🚧 In Progress  
 **Phase 4️⃣** Night Mesh — Distributed proof sync and audit sharing → 🔄 Planned  
 **Phase 5️⃣** Vesper — Self-Documenting AI Agent → 💬 Planned (final layer)
- 
 
 ---
 
