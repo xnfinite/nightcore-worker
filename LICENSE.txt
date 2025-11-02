@@ -1,0 +1,8 @@
+Night Core Pro — End-User License Agreement (Excerpt)
+Copyright (c) 2025 xnfinite.
+
+This repository contains proprietary code that unlocks features
+(AUFS, Cloud, Guardian WIP) for Night Core. Redistribution and
+reverse engineering are prohibited except as allowed by law.
+
+Guardian is not trademarked. Night Core is a trademark of xnfinite.
