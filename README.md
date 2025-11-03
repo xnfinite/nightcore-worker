@@ -63,9 +63,14 @@ Night Core Pro extends this open-core framework with:
 
 🧠 Vesper AI Agent — self-documenting orchestration
 
-<p align="center"> <a href="https://github.com/xnfinite/nightcore-pro"> <img src="https://img.shields.io/badge/Night%20Core™%20Pro-v39.2%20AUFS-blue?style=for-the-badge&color=0B3D91" alt="Night Core™ Pro"/> </a> </p>
-Access: Night Core Pro is currently in a closed release.
-Verified maintainers and enterprise partners can request access to the private repository.
+<p align="center">
+  <a href="https://github.com/xnfinite/nightcore-pro">
+    <img src="https://img.shields.io/badge/Night%20Core™%20Pro-v39.2%20AUFS-blue?style=for-the-badge&color=0B3D91" alt="Night Core™ Pro"/>
+  </a>
+</p>
+
+> **Access:** Night Core™ Pro is currently in a closed release.  
+> Verified maintainers and enterprise partners can request access to the private repository.
 
 🧩 Roadmap
 Phase	Goal	Status
