@@ -1,0 +1,15 @@
+# ==========================================================
+# Night Core™ Build Configuration — Optimized Release Default
+# Supports both Windows (MSVC) and Linux (GNU) environments.
+# ==========================================================
+
+[build]
+target-dir = "target"
+rustflags = ["-C", "opt-level=3"]
+
+# ----------------------------------------------------------
+# Notes:
+# - This enables full optimization in all builds.
+# - To run, use: cargo +nightly run --release -- run --all
+# - Do NOT set a runner (it causes recursion on Windows).
+# ==========================================================
