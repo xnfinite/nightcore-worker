@@ -40,12 +40,12 @@ By default:
 ---
 
 ## 🪶 Licensing & Branding
-- The **Night Core™** name, **B106 Edition**, and dashboard visuals are proprietary trademarks of **Gabriel Ginn / B106 Labs**.  
+- The **Night Core™** name, **B106 Edition**, and dashboard visuals are proprietary trademarks of **xnfinite / B106 Labs**.  
 - All source code under `/src`, `/modules`, and `/ops` is MIT-licensed.  
 - Commercial forks must maintain visible attribution and audit transparency.
 
 ---
 
-<p align="center"><i>© 2025 Gabriel Ginn — Governance built for verifiable autonomy.</i></p>
+<p align="center"><i>© 2025 xnfinite — Governance built for verifiable autonomy.</i></p>
 
 

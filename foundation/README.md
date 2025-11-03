@@ -12,7 +12,7 @@ All future versions, documentation, and features must extend from this state.
 | **AUFS** | Autonomous Upgrade & Fork System |
 | **Vision** | Self-healing, provable, autonomous compute standard |
 | **License** | MIT (Open Core) |
-| **Maintainer** | Gabriel Ginn |
+| **Maintainer** | xnfinite |
 | **Brand** | B106 Edition (logo + visuals reserved) |
 
 ### Update Rules

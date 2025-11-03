@@ -120,9 +120,9 @@ This milestone confirms Night Core’s verified stability as a fully self-contai
 
 \- \*\*Trademark:\*\* “Night Core B106 Edition” name \& dashboard visuals © B106 Labs (Protected Brand Assets).  
 
-\- \*\*Maintainer:\*\* Gabriel Ginn  (<PRIVATE\_EMAIL>)  
+\- \*\*Maintainer:\*\* Nightcore-Maintainers  (<PRIVATE\_EMAIL>)  
 
-\- \*\*Repository:\*\* \[GitHub → b106labs/nightcore](https://github.com/b106labs/nightcore)  
+\- \*\*Repository:\*\* \[GitHub → xnfinite/nightcore](https://github.com/xninite/nightcore-worker)  
 
 
 
