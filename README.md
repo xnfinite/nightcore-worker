@@ -71,8 +71,3 @@ Maintainer: xnfinite — Night Core Maintainer
 Repository: https://github.com/xnfinite/nightcore-worker
 
 
-<p align="center">
-  <a href="https://github.com/xnfinite/nightcore-pro"><b>Night Core™ Pro</b></a>
-  <br/>
-  <sub>Private Enterprise Layer — AUFS • Guardian • Vesper</sub>
-</p>
