@@ -11,18 +11,32 @@
 
 ---
 
-## 🧩 Overview
-**Night Core™ Worker** is the verified open-core layer of the Night Core Framework.  
-It provides a secure Rust runtime for WebAssembly (WASM) modules using:
-- **Wasmtime 37 + WASI P1**
-- **Ed25519 Signature Verification**
-- **SHA-256 Integrity Checking**
-- **Multi-Tenant Execution**
-- **Chronicle Proof Ledger**
+🧩 Night Core™ Worker — Verified Runtime for Trusted Compute
 
-All higher-tier Night Core Pro features (AUFS, Guardian, Vesper, AWS Integration) are built on this foundation.
+Night Core Worker is an open-source, Rust-based runtime that delivers trusted compute for WebAssembly (WASM).
+It verifies, isolates, and executes signed modules with cryptographic assurance, giving developers a secure foundation for distributed and autonomous workloads.
 
+🔐 Key Features
+
+Trusted Execution: Runs WebAssembly modules inside Wasmtime 37 + WASI P1 sandboxes.
+
+Digital Signature Verification: Uses Ed25519 to confirm every module’s authenticity.
+
+Integrity Protection: SHA-256 hashing detects tampering or modification.
+
+Multi-Tenant Orchestration: Safely runs multiple verified workloads in isolation.
+
+Audit & Proof Logging: The Chronicle proof ledger records every verification for full transparency.
+
+🧠 Why It Matters
+
+Night Core Worker enables verifiable, secure compute at the edge or in the cloud, ensuring that only trusted, signed code can run.
+It’s the foundation of the Night Core Framework, powering future layers like AUFS (Autonomous Upgrade & Fork System) and Vesper—the upcoming AI documentation agent.
 ---
+
+📜 **Full Proof & Verification Page:**  
+See [`docs/proof/README.md`](docs/proof/README.md) for detailed cryptographic evidence,
+including audit logs, Chronicle signatures, and visual proof reports.
 
 ## ⚙️ Quick Start
 
