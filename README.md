@@ -4,7 +4,7 @@
   <br/>
   <a href="https://github.com/xnfinite/nightcore-pro"><b>Night Core™ Pro</b></a>
   <br/>
-  <a href="https://github.com/xnfinite/night-core-worker/actions">
+  <a href="https://github.com/xnfinite/nightcore-worker/actions">
     <img src="https://img.shields.io/badge/AUFS%20Verified-v39.2-success?style=for-the-badge&color=0B3D91" alt="AUFS Verified"/>
   </a>
   <br/>
@@ -23,68 +23,51 @@ It provides a secure Rust runtime for WebAssembly (WASM) modules using:
 - **Multi-Tenant Execution**
 - **Chronicle Proof Ledger**
 
-All higher-tier Night Core Pro features (AUFS, Guardian, Vesper, AWS Integration) build upon this foundation.
+All higher-tier **Night Core™ Pro** features (AUFS, Guardian, Vesper, AWS Integration) build upon this foundation.
 
 ---
 
 ## ⚙️ Quick Start
 
 ```bash
-git clone https://github.com/xnfinite/night-core-worker.git
-cd night-core-worker
+git clone https://github.com/xnfinite/nightcore-worker.git
+cd nightcore-worker
 cargo +nightly build
 cargo +nightly run -- run --all
-```
-
----
-
-## 🔏 Verified Proof Lineage
-Night Core Worker maintains a public ledger of proofs under  
-[`docs/legacy/Night_Core_Chronicle.md`](docs/legacy/Night_Core_Chronicle.md)  
+🔏 Verified Proof Lineage
+Night Core Worker maintains a public ledger of proofs under
+docs/legacy/Night_Core_Chronicle.md
 recording every verified release and audit entry.
 
 Example verification snippet:
 
-```
+mathematica
+Copy code
 PGP Signature Verified ✔  
 Ed25519 Signatures Valid ✔  
 SHA-256 Integrity Passed ✔
-```
-
-📜 **Full Proof & Verification Page:**  
-See [`docs/proof/README.md`](docs/proof/README.md) for detailed cryptographic evidence,  
+📜 Full Proof & Verification Page:
+See docs/proof/README.md for detailed cryptographic evidence,
 including audit logs, Chronicle signatures, and visual proof reports.
 
----
+🧱 Architecture Summary
+Layer	Purpose
+Worker Core	Executes verified WASM modules inside isolated tenants
+Verifier	Performs Ed25519 + SHA-256 checks
+Chronicle	Writes immutable proof records
+AUFS Interface	Automates upgrade and fork integrity
+Dashboard (HTML)	Displays orchestration status and proof summaries
 
-## 🧱 Architecture Summary
-| Layer | Purpose |
-|:--|:--|
-| **Worker Core** | Executes verified WASM modules inside isolated tenants |
-| **Verifier** | Performs Ed25519 + SHA-256 checks |
-| **Chronicle** | Writes immutable proof records |
-| **AUFS Interface** | Automates upgrade and fork integrity |
-| **Dashboard (HTML)** | Displays orchestration status and proof summaries |
+🧭 Roadmap
+Phase	Goal
+v39.x	AUFS + Chronicle Automation Chain
+v40.x	Guardian Security Layer
+v41.x	Night Mesh Distributed Proof Network
+v42.x	Vesper AI Agent Integration
 
----
+🪪 License & Maintainer
+License: MIT (Open Core) • B106 Edition branding reserved
+Maintainer: xnfinite — Night Core Maintainer
+Repository: https://github.com/xnfinite/nightcore-worker
 
-## 🧭 Roadmap
-| Phase | Goal |
-|:--|:--|
-| v39.x | AUFS + Chronicle Automation Chain |
-| v40.x | Guardian Security Layer |
-| v41.x | Night Mesh Distributed Proof Network |
-| v42.x | Vesper AI Agent Integration |
-
----
-
-## 🪪 License & Maintainer
-**License:** MIT (Open Core) • B106 Edition branding reserved  
-**Maintainer:** `xnfinite — Night Core Maintainer`  
-**Repository:** https://github.com/xnfinite/night-core-worker
-
----
-
-<p align="center">
-  <a href="https://github.com/xnfinite/nightcore-pro"><b>Night Core™ Pro</b></a>
-</p>
+<p align="center"> <a href="https://github.com/xnfinite/nightcore-pro"><b>Night Core™ Pro</b></a> </p> ```
