@@ -65,8 +65,6 @@ Night Core Pro extends this open-core framework with:
 
 <p align="center">
   <a href="https://github.com/xnfinite/nightcore-pro">
-
-  </a>
 </p>
 
 > **Access:** Night Core™ Pro is currently in a closed release.  
