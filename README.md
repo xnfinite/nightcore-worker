@@ -1,18 +1,54 @@
-# Night Core Pro — Licensed Unlocker (v38.1)
+<!-- Night Core™ Worker — Verified Open-Core Foundation -->
+<p align="center">
+  <img src="assets/nightcore_logo_tm.png" width="220" alt="Night Core™ Logo"/>
+  <br/>
+  <a href="https://github.com/xnfinite/night-core-worker/actions">
+    <img src="https://img.shields.io/badge/AUFS%20Verified-v39.2-success?style=for-the-badge&color=0B3D91" alt="AUFS Verified"/>
+  </a>
+  <br/>
+  <sub>Night Core™ Worker — Secure • Autonomous • Verified</sub>
+</p>
 
-- Unlocks: AUFS, Cloud (WIP), Guardian (WIP — not trademarked)
-- Verifies Pro license and AUFS manifests (Ed25519 + SHA-256)
-- Works *with* the open-core repo: **nightcore-worker**
+---
 
-## Quick Start
-`powershell
-# Build Pro
-cargo +nightly build --release
+## 🧩 Overview
+**Night Core™ Worker** is the verified open-core layer of the Night Core Framework.  
+It provides a secure Rust runtime for WebAssembly (WASM) modules using:
+- **Wasmtime 37 + WASI P1**
+- **Ed25519 Signature Verification**
+- **SHA-256 Integrity Checking**
+- **Multi-Tenant Execution**
+- **Chronicle Proof Ledger**
 
-# Verify license & AUFS
-.\target\release\nightcore-pro.exe checklicense
-.\target\release\nightcore-pro.exe aufs
-Notes
-Night Core™ is a trademark of xnfinite.
+All higher-tier Night Core Pro features (AUFS, Guardian, Vesper, AWS Integration) are built on this foundation.
 
-Guardian is not trademarked.
+---
+
+## ⚙️ Quick Start
+
+```bash
+git clone https://github.com/xnfinite/night-core-worker.git
+cd night-core-worker
+cargo +nightly build
+cargo +nightly run -- run --all
+🔏 Verified Proof Lineage
+Night Core Worker maintains a public ledger of proofs under docs/legacy/Night_Core_Chronicle.md which records every verified release and audit entry.
+
+Example verification snippet:
+
+mathematica
+Copy code
+PGP Signature Verified ✔  
+Ed25519 Signatures Valid ✔  
+SHA-256 Integrity Passed ✔
+🧩 Roadmap
+Phase	Goal
+v39.x	AUFS + Chronicle Automation Chain
+v40.x	Guardian Security Layer
+v41.x	Night Mesh Distributed Proof Network
+v42.x	Vesper AI Agent Integration
+
+🪪 License & Maintainer
+License: MIT (Open Core) • B106 Edition branding reserved
+Maintainer: xnfinite — Night Core Maintainer
+Repository: https://github.com/xnfinite/night-core-worker
