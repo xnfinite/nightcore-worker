@@ -47,3 +47,157 @@ Tenant B Proof:
 
 Source Log: [logs\nightcore_proof.html](../../logs/nightcore_proof.html)
 ---
+
+---
+### 🧩 Night Core Pro — Verified Release v38.3
+**Description:** Night Core Pro Auto AUFS Test
+**Timestamp:** 2025-11-03T02:14:24.6790365Z
+
+| File | SHA-256 | Size |
+|:--|:--|--:|
+| `Cargo.toml` | `f9ad51a16ef4f3810264fa698101206384fef9f6a9540dfa29439641fd880ec0` | 588 B |
+| `src\main.rs` | `f6fb1b516c3722f2194a28f92d201ed6b69c9ee81ec74eba3d489b3427629c16` | 4313 B |
+
+**Signature:** `VEicuQwU/AoVxG9ZgbzoRdwIh8B0z2a8vx4Gcau613uAwEqv2zv+sPj/4mRjknDabCITOslK+l3B0UAJngEdAw==`
+
+**Public Key:** `PIX3ftQEkvVgNCWcd5RAX/Khnbs/PxGxymSV7JvTIm8=`
+
+---
+### 🧩 Night Core Pro — Verified Release v38.3
+**Description:** Night Core Pro Auto AUFS Test
+**Timestamp:** 2025-11-03T02:30:09.0793711Z
+
+| File | SHA-256 | Size |
+|:--|:--|--:|
+| `Cargo.toml` | `f9ad51a16ef4f3810264fa698101206384fef9f6a9540dfa29439641fd880ec0` | 588 B |
+| `src\main.rs` | `f6fb1b516c3722f2194a28f92d201ed6b69c9ee81ec74eba3d489b3427629c16` | 4313 B |
+
+**Signature:** `VEicuQwU/AoVxG9ZgbzoRdwIh8B0z2a8vx4Gcau613uAwEqv2zv+sPj/4mRjknDabCITOslK+l3B0UAJngEdAw==`
+
+**Public Key:** `PIX3ftQEkvVgNCWcd5RAX/Khnbs/PxGxymSV7JvTIm8=`
+
+---
+### 🧩 Night Core Pro — Verified Release v38.3
+**Description:** Night Core Pro Auto AUFS Test
+**Timestamp:** 2025-11-03T02:39:28.8851076Z
+
+| File | SHA-256 | Size |
+|:--|:--|--:|
+| `Cargo.toml` | `f9ad51a16ef4f3810264fa698101206384fef9f6a9540dfa29439641fd880ec0` | 588 B |
+| `src\main.rs` | `f6fb1b516c3722f2194a28f92d201ed6b69c9ee81ec74eba3d489b3427629c16` | 4313 B |
+
+**Signature:** `VEicuQwU/AoVxG9ZgbzoRdwIh8B0z2a8vx4Gcau613uAwEqv2zv+sPj/4mRjknDabCITOslK+l3B0UAJngEdAw==`
+
+**Public Key:** `PIX3ftQEkvVgNCWcd5RAX/Khnbs/PxGxymSV7JvTIm8=`
+
+---
+### 🧩 Night Core Pro — Verified Release v38.3
+**Description:** Night Core Pro Auto AUFS Test
+**Timestamp:** 2025-11-03T02:50:12.9482954Z
+
+| File | SHA-256 | Size |
+|:--|:--|--:|
+| `Cargo.toml` | `f9ad51a16ef4f3810264fa698101206384fef9f6a9540dfa29439641fd880ec0` | 588 B |
+| `src\main.rs` | `f6fb1b516c3722f2194a28f92d201ed6b69c9ee81ec74eba3d489b3427629c16` | 4313 B |
+
+**Signature:** `VEicuQwU/AoVxG9ZgbzoRdwIh8B0z2a8vx4Gcau613uAwEqv2zv+sPj/4mRjknDabCITOslK+l3B0UAJngEdAw==`
+
+**Public Key:** `PIX3ftQEkvVgNCWcd5RAX/Khnbs/PxGxymSV7JvTIm8=`
+
+---
+### 🧩 Night Core Pro — Verified Release v38.3
+**Description:** Night Core Pro Auto AUFS Test
+**Timestamp:** 2025-11-03T02:59:03.8920743Z
+
+| File | SHA-256 | Size |
+|:--|:--|--:|
+| `Cargo.toml` | `f9ad51a16ef4f3810264fa698101206384fef9f6a9540dfa29439641fd880ec0` | 588 B |
+| `src\main.rs` | `f6fb1b516c3722f2194a28f92d201ed6b69c9ee81ec74eba3d489b3427629c16` | 4313 B |
+
+**Signature:** `VEicuQwU/AoVxG9ZgbzoRdwIh8B0z2a8vx4Gcau613uAwEqv2zv+sPj/4mRjknDabCITOslK+l3B0UAJngEdAw==`
+
+**Public Key:** `PIX3ftQEkvVgNCWcd5RAX/Khnbs/PxGxymSV7JvTIm8=`
+
+---
+### 🧩 Night Core Pro — Verified Release v38.3
+**Description:** Night Core Pro Auto AUFS Test
+**Timestamp:** 2025-11-03T03:07:00.1562258Z
+
+| File | SHA-256 | Size |
+|:--|:--|--:|
+| `Cargo.toml` | `f9ad51a16ef4f3810264fa698101206384fef9f6a9540dfa29439641fd880ec0` | 588 B |
+| `src\main.rs` | `f6fb1b516c3722f2194a28f92d201ed6b69c9ee81ec74eba3d489b3427629c16` | 4313 B |
+
+**Signature:** `VEicuQwU/AoVxG9ZgbzoRdwIh8B0z2a8vx4Gcau613uAwEqv2zv+sPj/4mRjknDabCITOslK+l3B0UAJngEdAw==`
+
+**Public Key:** `PIX3ftQEkvVgNCWcd5RAX/Khnbs/PxGxymSV7JvTIm8=`
+
+---
+### 🧩 Night Core Pro — Verified Release v38.3
+**Description:** Night Core Pro Auto AUFS Test
+**Timestamp:** 2025-11-03T03:16:07.7164283Z
+
+| File | SHA-256 | Size |
+|:--|:--|--:|
+| `Cargo.toml` | `f9ad51a16ef4f3810264fa698101206384fef9f6a9540dfa29439641fd880ec0` | 588 B |
+| `src\main.rs` | `f6fb1b516c3722f2194a28f92d201ed6b69c9ee81ec74eba3d489b3427629c16` | 4313 B |
+
+**Signature:** `VEicuQwU/AoVxG9ZgbzoRdwIh8B0z2a8vx4Gcau613uAwEqv2zv+sPj/4mRjknDabCITOslK+l3B0UAJngEdAw==`
+
+**Public Key:** `PIX3ftQEkvVgNCWcd5RAX/Khnbs/PxGxymSV7JvTIm8=`
+
+---
+### 🧩 Night Core Pro — Verified Release v38.3
+**Description:** Night Core Pro Auto AUFS Test
+**Timestamp:** 2025-11-03T03:20:32.7603397Z
+
+| File | SHA-256 | Size |
+|:--|:--|--:|
+| `Cargo.toml` | `f9ad51a16ef4f3810264fa698101206384fef9f6a9540dfa29439641fd880ec0` | 588 B |
+| `src\main.rs` | `f6fb1b516c3722f2194a28f92d201ed6b69c9ee81ec74eba3d489b3427629c16` | 4313 B |
+
+**Signature:** `VEicuQwU/AoVxG9ZgbzoRdwIh8B0z2a8vx4Gcau613uAwEqv2zv+sPj/4mRjknDabCITOslK+l3B0UAJngEdAw==`
+
+**Public Key:** `PIX3ftQEkvVgNCWcd5RAX/Khnbs/PxGxymSV7JvTIm8=`
+
+---
+### 🧩 Night Core Pro — Verified Release v38.3
+**Description:** Night Core Pro Auto AUFS Test
+**Timestamp:** 2025-11-03T03:32:59.9116152Z
+
+| File | SHA-256 | Size |
+|:--|:--|--:|
+| `Cargo.toml` | `f9ad51a16ef4f3810264fa698101206384fef9f6a9540dfa29439641fd880ec0` | 588 B |
+| `src\main.rs` | `f6fb1b516c3722f2194a28f92d201ed6b69c9ee81ec74eba3d489b3427629c16` | 4313 B |
+
+**Signature:** `VEicuQwU/AoVxG9ZgbzoRdwIh8B0z2a8vx4Gcau613uAwEqv2zv+sPj/4mRjknDabCITOslK+l3B0UAJngEdAw==`
+
+**Public Key:** `PIX3ftQEkvVgNCWcd5RAX/Khnbs/PxGxymSV7JvTIm8=`
+
+---
+### 🧩 Night Core Pro — Verified Release v39.2
+**Description:** Night Core Pro AUFS + Chronicle Auto-Sync Verified Build
+**Timestamp:** 2025-11-03T04:12:33.5325925Z
+
+| File | SHA-256 | Size |
+|:--|:--|--:|
+| `Cargo.toml` | `f9ad51a16ef4f3810264fa698101206384fef9f6a9540dfa29439641fd880ec0` | 588 B |
+| `src\main.rs` | `ceea66accf71e7c5b0a327addadab0366e329309ec0d956f2789ce5b4dc324a8` | 4852 B |
+
+**Signature:** `fmeT0WGWwxcTxEnfincwGUc6X/LFiYOwb/93QTR5Dv2fyUbaVMUf4WDVlwPNs4GYLNdu+y0ANpEsw4beEj0JDg==`
+
+**Public Key:** `PIX3ftQEkvVgNCWcd5RAX/Khnbs/PxGxymSV7JvTIm8=`
+
+---
+### 🧩 Night Core Pro — Verified Release v39.2
+**Description:** Night Core Pro AUFS + Chronicle Auto-Sync Verified Build
+**Timestamp:** 2025-11-03T15:37:05.0789094Z
+
+| File | SHA-256 | Size |
+|:--|:--|--:|
+| `Cargo.toml` | `f9ad51a16ef4f3810264fa698101206384fef9f6a9540dfa29439641fd880ec0` | 588 B |
+| `src\main.rs` | `ceea66accf71e7c5b0a327addadab0366e329309ec0d956f2789ce5b4dc324a8` | 4852 B |
+
+**Signature:** `fmeT0WGWwxcTxEnfincwGUc6X/LFiYOwb/93QTR5Dv2fyUbaVMUf4WDVlwPNs4GYLNdu+y0ANpEsw4beEj0JDg==`
+
+**Public Key:** `PIX3ftQEkvVgNCWcd5RAX/Khnbs/PxGxymSV7JvTIm8=`
