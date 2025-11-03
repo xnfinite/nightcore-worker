@@ -34,10 +34,9 @@ It’s the foundation of the Night Core Framework, powering advanced layers such
 ## 📜 Proof & Verification
 See [`docs/proof/README.md`](docs/proof/README.md) for detailed cryptographic evidence, including audit logs, Chronicle signatures, and visual proof reports.
 
-Example verification snippet:
-
+### 🧾 Verification Snippet
 <p align="center">
-  <img src="../../assets/nightcore_v38_proof_report.png" width="720" alt="Night Core™ Verified Proof Report"/>
+  <img src="assets/nightcore_v38_proof_report.png" width="720" alt="Night Core™ Verified Proof Report"/>
   <br/>
   <sub>Night Core™ v38 → v39.2 Proof Lineage — Ed25519 + SHA-256 Verified</sub>
 </p>
