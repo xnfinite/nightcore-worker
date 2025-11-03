@@ -65,7 +65,7 @@ Night Core Pro extends this open-core framework with:
 
 <p align="center">
   <a href="https://github.com/xnfinite/nightcore-pro">
-    <img src="https://img.shields.io/badge/Night%20Core™%20Pro-v39.2%20AUFS-blue?style=for-the-badge&color=0B3D91" alt="Night Core™ Pro"/>
+
   </a>
 </p>
 
