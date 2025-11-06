@@ -8,7 +8,8 @@ use sha2::{Sha256, Digest};
 
 mod verify;
 mod aufs;
-mod sign_tenant; // ✅ Added: restored Ed25519 signer module
+mod sign_tenant; // ✅ Restored Ed25519 signer module
+mod unlock;      // ✅ NEW: Pro license unlock verifier
 
 /// ===========================================================
 /// 🧭 Night Core CLI — Secure. Autonomous. Verified.
@@ -69,10 +70,20 @@ enum Commands {
         #[arg(short, long, default_value = "keys/maintainers/admin1.key")]
         key: String,
     },
+
+    /// 🪪 Verify Night Core™ Pro license unlock key
+    Unlock, // ✅ NEW COMMAND
 }
 
 fn main() -> Result<()> {
     let cli = Cli::parse();
+
+    // ✅ Check for Pro unlock license before running commands
+    if unlock::check_unlock() {
+        println!("🪪 Pro mode active — AUFS + Proof extensions enabled.\n");
+    } else {
+        println!("🔒 Running in open-core mode (MIT Edition).\n");
+    }
 
     match cli.command {
         // ===================================================
@@ -81,7 +92,7 @@ fn main() -> Result<()> {
         }
 
         // ===================================================
-        Commands::Run { all, proof, path } => { // ✅ added `proof`
+        Commands::Run { all, proof, path } => { // ✅ added proof flag
             if all {
                 let modules_dir = PathBuf::from("modules");
                 for entry in fs::read_dir(&modules_dir)
@@ -128,7 +139,7 @@ fn main() -> Result<()> {
 
         // ===================================================
         Commands::Sign { dir, key } => {
-            // ✅ Restored direct link to sign_tenant.rs (not verify)
+            // ✅ Restored direct link to sign_tenant.rs
             sign_tenant::sign_tenant(&dir, &key)?;
         }
 
@@ -180,8 +191,17 @@ fn main() -> Result<()> {
         Commands::SignUpgrade { manifest, key } => {
             aufs::sign_upgrade_manifest(PathBuf::from(&manifest), PathBuf::from(&key))?;
         }
-    }
+
+        // ===================================================
+        Commands::Unlock => { // ✅ NEW UNLOCK COMMAND HANDLER
+            if unlock::check_unlock() {
+                println!("✅ Unlock succeeded — Pro features enabled");
+            } else {
+                println!("❌ Unlock failed — remaining in open-core mode");
+            }
+        }
+    } // ✅ closes match cli.command
 
     println!("✨ Night Core execution complete.\n");
     Ok(())
-}
+} // ✅ closes fn main

@@ -200,3 +200,16 @@ Follow updates in docs/legacy/Night_Core_Chronicle.md or the official GitHub rep
 - License: MIT (open-core)
 - Trademark: “Night Core™” and “B106 Edition” are proprietary marks of B106 Labs
 - Core Repository: https://github.com/xnfinite/nightcore-worker
+
+---
+
+🏛️ Open-Core Policy
+---------------------------------------------
+
+Night Core™ Worker is released under the **MIT License** as a fully open-core framework.  
+It is intended for developers, researchers, and security engineers who wish to explore or build on verified WebAssembly orchestration.  
+All advanced systems — including **AUFS (Autonomous Upgrade & Fork System)**, **Guardian Layer**, **Vesper AI**, and **AWS Integration** — are part of **Night Core™ Pro**, a closed-source commercial edition.  
+
+The open-core edition will remain free and maintained for transparency, education, and collaboration, while Night Core™ Pro continues advancing the enterprise feature set.
+
+---

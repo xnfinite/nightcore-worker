@@ -1,20 +1,18 @@
 {
-  "version": "v38",
-  "previous_version": "v37",
-  "timestamp": "2025-10-27T22:30:00Z",
-  "description": "Night Core AUFS upgrade manifest for tenants A and B.",
+  "description": "Auto-signed AUFS manifest for Night Core Pro v39.3",
   "files": [
-    "modules/tenantA-hello/module.wasm",
-    "modules/tenantB-math/module.wasm"
+    {
+      "name": "module.wasm",
+      "path": "C:\\Users\\gabeg\\source\\repos\\nightcore-worker\\modules\\tenantA-hello\\module.wasm",
+      "sha256": "540abd3c9046ef5c6c55463cb77aea2fb13a398e46ffdcf6b91b64c976141291"
+    },
+    {
+      "name": "module.wasm",
+      "path": "C:\\Users\\gabeg\\source\\repos\\nightcore-worker\\modules\\tenantB-math\\module.wasm",
+      "sha256": "4f6e684892724a5436a441826063ae169f2b293678b4322fcbf73b376c90d566"
+    }
   ],
-  "sha256": {
-    "modules/tenantA-hello/module.wasm": "1a170b4c05434da10afb66e3742ce7be77cf46ae4c8df5fa8ef3a0ec4cf72a91",
-    "modules/tenantB-math/module.wasm": "4f6e684892724a5436a441826063ae169f2b293678b4322fcbf73b376c90d566"
-  },
-  "keys": [
-    "keys/maintainers/admin1.pub",
-    "keys/maintainers/admin2.pub"
-  ],
-  "signature": null,
-  "signatures_required": 2
+  "pubkey_b64": "3PM17lD2vymvbLpHHCwceTTQTR7ZL3q6K0qz4Clrrmg=",
+  "signature": "Q2BbCsr8INQtd+/P31x43gTtlzRj4Pc+Ee37L9GH93XvXclYIFv/NZQj6O7GRh4YxoWWY/hZOD5utSjzhLySAQ==",
+  "version": "v39.3"
 }

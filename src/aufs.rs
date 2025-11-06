@@ -61,8 +61,33 @@ pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
 
     let manifest_data = fs::read_to_string(&resolved_path)
         .with_context(|| format!("Failed to read manifest file at {}", resolved_path.display()))?;
-    let manifest: UpgradeManifest =
-        serde_json::from_str(&manifest_data).context("Failed to parse upgrade manifest JSON")?;
+    let manifest_value: serde_json::Value = serde_json::from_str(&manifest_data)
+        .context("Failed to parse upgrade manifest JSON")?;
+
+    let mut manifest: UpgradeManifest = serde_json::from_value(manifest_value.clone())
+        .unwrap_or_else(|_| UpgradeManifest {
+            version: "legacy".into(),
+            previous_version: "".into(),
+            timestamp: "".into(),
+            description: None,
+            files: Vec::new(),
+            sha256: BTreeMap::new(),
+            keys: Vec::new(),
+            signature: None,
+            signatures_required: 0,
+        });
+
+    // 🔧 Compatibility: extract hashes from modern schema if present
+    if let Some(files) = manifest_value.get("files").and_then(|v| v.as_array()) {
+        for entry in files {
+            if let (Some(path), Some(hash)) = (
+                entry.get("path").and_then(|v| v.as_str()),
+                entry.get("sha256").and_then(|v| v.as_str()),
+            ) {
+                manifest.sha256.insert(path.to_string(), hash.to_string());
+            }
+        }
+    }
 
     for (file, expected_hash) in &manifest.sha256 {
         let file_path = repo_root.join(file);
@@ -82,12 +107,25 @@ pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
         println!("✅ Hash verified for {}", file);
     }
 
+    // ============================================================
+    // 🗝️ Load both local and Pro maintainer public keys
+    // ============================================================
     let keys_dir = repo_root.join("keys/maintainers");
-    let key_files: Vec<_> = fs::read_dir(&keys_dir)
+
+    let mut key_files: Vec<PathBuf> = fs::read_dir(&keys_dir)
         .context("Reading maintainer key directory")?
-        .filter_map(|e| e.ok())
-        .filter(|e| e.path().extension().and_then(|s| s.to_str()) == Some("pub"))
+        .filter_map(|e| e.ok().map(|entry| entry.path()))
+        .filter(|p| p.extension().and_then(|s| s.to_str()) == Some("pub"))
         .collect();
+
+    // Include Pro keys if present
+    for name in ["admin1_pro.pub", "admin2_pro.pub"] {
+        let pro_path = keys_dir.join(name);
+        if pro_path.exists() {
+            key_files.push(pro_path);
+        }
+    }
+
     if key_files.is_empty() {
         return Err(anyhow!("No maintainer keys found in {:?}", keys_dir));
     }
@@ -128,8 +166,7 @@ pub fn verify_upgrade(manifest_path: &Path) -> Result<()> {
                 .expect("Invalid signature length (need 64 bytes)"),
         );
 
-        for key_entry in &key_files {
-            let key_path = key_entry.path();
+        for key_path in &key_files {
             let key_raw = fs::read_to_string(&key_path).context("Reading maintainer public key")?;
             let key_bytes = STANDARD.decode(key_raw.trim()).context("Invalid base64 pubkey")?;
             if key_bytes.len() != 32 {
