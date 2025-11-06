@@ -26,3 +26,9 @@ modules/*/sandbox/
 # modules/*/module.wasm
 # modules/*/module.sig
 
+keys/
+license_unlock.key
+upgrades/signatures/
+keys/
+license_unlock.key
+upgrades/signatures/
