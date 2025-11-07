@@ -1,0 +1,13 @@
+[package]
+name = "nc-exec-cli"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Night Core — CLI for backend execution (demo)"
+
+[dependencies]
+anyhow = "1"
+clap = { version = "4", features = ["derive"] }
+serde_json = "1"
+nc-exec = { path = "../nc-exec" }
+nc-exec-wasmtime = { path = "../nc-exec-wasmtime" }

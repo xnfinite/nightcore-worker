@@ -1,0 +1,23 @@
+[package]
+name = "nc-exec-wasmtime"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Night Core — Wasmtime/WASI backend adapter"
+
+[dependencies]
+anyhow = "1"
+chrono = { version = "0.4", features = ["clock", "serde"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+base64 = "0.21"
+ed25519-dalek = { version = "2.2.0", features = ["rand_core"] }
+wasi-common = "17.0.3"
+
+wasmtime = "37.0.0"
+wasmtime-wasi = "37.0.0"
+wasi-cap-std-sync = "17.0.3"
+
+nc-exec = { path = "../nc-exec" }
+
