@@ -178,6 +178,154 @@ cargo +nightly run -- run --all
 | Logging | HTML + JSON reports | Readable dashboards and proofs |
 
 ---
+---
+
+🧩 Night Core™ Worker v39 — Update Summary
+---------------------------------------------
+
+Night Core™ Worker v39 introduces persistent proof tracking, full multi-tenant dashboards, and modular backend architecture under `/crates`.
+
+This marks a major evolution of the open-core Worker into a **stateful, verifiable orchestration engine**, capable of securely recording, inspecting, and exporting long-term proof histories for each tenant.
+
+---
+
+## 🚀 New in v39
+
+### 1️⃣ Persistent Proof State (`nc_state`)
+Each tenant now maintains its own lightweight database powered by **sled**, stored under:
+
+```
+/state/<tenant>/sled
+```
+
+Automatically records:
+- `last_proof` → most recent verification metadata  
+- `proof_history` → append-only list of past verifications  
+
+New commands:
+```bash
+nightcore inspect-state --tenant tenantA-hello
+nightcore inspect-state --tenant tenantA-hello --summary
+```
+
+Outputs:
+- `logs/<tenant>_proof_history.json`
+- Aggregated proof statistics and verification percentage.
+
+---
+
+### 2️⃣ Historical Proof Dashboard (`export-dashboard`)
+All tenant histories are now combined into a **global HTML ledger** with visual statistics:
+
+```bash
+nightcore export-dashboard
+nightcore export-dashboard --diff
+```
+
+Creates:
+- `logs/nightcore_history_dashboard.html`  
+- Auto-opens in browser  
+- Dark theme, compact layout, and diff mode for visual change tracking.
+
+---
+
+### 3️⃣ Proof-Oriented Orchestration (`--proof`)
+The run engine now supports deterministic proof-only mode with capped parallelism for verifiability:
+
+```bash
+nightcore run --all --proof
+```
+
+Writes:
+- `logs/nightcore_dashboard.html` — visual proof dashboard  
+- `logs/orchestration_report.json` — detailed timing & integrity data  
+
+---
+
+### 4️⃣ Expanded CLI
+New commands extend Night Core Worker’s operational scope:
+
+| Command | Description |
+|----------|--------------|
+| `inspect-state` | View or summarize per-tenant proof history |
+| `export-dashboard` | Build a unified global proof ledger |
+| `unlock` | Verify Pro license (AUFS / proof extensions) |
+| `sign-upgrade` | Sign AUFS manifests (for Night Core Pro) |
+
+---
+
+## 🧱 Backend Architecture (v39 Modular Crates)
+
+Night Core Worker is now composed of modular backend crates designed for isolation, performance, and future backend expansion.
+
+```
+crates/
+│
+├── nc-exec/
+│   ├── Cargo.toml
+│   └── src/lib.rs
+│   → Core execution interface for verified WASM modules
+│
+├── nc-exec-cli/
+│   ├── Cargo.toml
+│   └── src/main.rs
+│   → CLI frontend for direct module execution
+│
+├── nc-exec-firecracker/
+│   ├── Cargo.toml
+│   └── src/lib.rs
+│   → (Experimental) Firecracker microVM backend for high-security sandboxing
+│
+├── nc-exec-wasmtime/
+│   ├── Cargo.toml
+│   └── src/lib.rs
+│   → Primary runtime backend — Wasmtime 37 + WASI Preview 1
+│
+└── nc_state/
+    ├── Cargo.toml
+    └── src/lib.rs
+    → Persistent proof state and audit tracking (sled engine)
+```
+
+---
+
+## 🔐 Security Reinforcement
+
+| Layer | Mechanism | Purpose |
+|--------|------------|----------|
+| Authenticity | Ed25519 digital signatures | Validates module authorship |
+| Integrity | SHA-256 hashing | Detects tampering before execution |
+| Persistence | sled key-value store | Maintains verifiable proof history |
+| Transparency | HTML + JSONL dashboards | Exportable, immutable audit trails |
+
+---
+
+## 📊 Logs & Reports Overview
+
+| File | Description |
+|-------|--------------|
+| `logs/nightcore_dashboard.html` | Live per-run proof dashboard |
+| `logs/nightcore_history_dashboard.html` | Global proof history ledger |
+| `logs/orchestration_report.json` | Structured performance summary |
+| `logs/<tenant>_proof_history.json` | Persistent per-tenant proof record |
+
+---
+
+## 🧠 Version Metadata
+
+| Property | Value |
+|-----------|--------|
+| **Version** | v39 Stable |
+| **Runtime** | Wasmtime 37 + WASI P1 |
+| **Crypto** | Ed25519 (ed25519-dalek) + SHA-256 |
+| **Persistence** | sled embedded KV |
+| **License** | MIT (open-core) |
+| **Trademark** | “Night Core™” and “B106 Edition” — proprietary marks of B106 Labs |
+| **Repository** | [github.com/xnfinite/nightcore-worker](https://github.com/xnfinite/nightcore-worker) |
+
+---
+
+✨ **Night Core™ Worker — Secure • Autonomous • Verified**
 
 ⚡ Night Core™ Pro (Coming Soon)
 ---------------------------------------------
