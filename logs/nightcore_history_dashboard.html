@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Night Core — Historical Ledger</title>
+  <style>
+    body { font-family: Inter, Segoe UI, Arial, sans-serif; background:#0b0e13; color:#dfe6ee; margin:0; padding:24px; }
+    h1 { color:#74c0fc; }
+    h3 { color:#a5d8ff; margin-bottom:8px; }
+    .tenant { background:#121826; border:1px solid #223047; border-radius:14px; padding:16px; margin:16px 0; box-shadow:0 1px 10px rgba(0,0,0,.25); }
+    table { width:100%; border-collapse:collapse; margin-top:8px; }
+    th,td { padding:8px; border-bottom:1px solid #223047; font-size:14px; }
+    tr:hover { background:#182133; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size:13px; }
+    .ok { color:#74ff7e; }
+    .err { color:#ff6b6b; }
+    .tag { display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid #2d3c57; background:#101625; font-size:12px; margin-right:8px; }
+    .tag.ok { border-color:#1e5c30; background:#0f2415; color:#74ff7e; }
+    .tag.warn { border-color:#665b21; background:#231f0e; color:#ffd43b; }
+    .tag.err { border-color:#6b1f1f; background:#241010; color:#ff6b6b; }
+    .delta { margin:6px 0 10px; }
+  </style>
+</head>
+<body>
+  <h1>Night Core™ — Historical Proof Ledger</h1>
+  <p>Generated: 2025-11-07T13:38:47.040745300+00:00 &nbsp; • &nbsp; Mode: diff</p>
+  <div class='tenant'><h3>🧩 tenantA-hello</h3><p>Total proofs: <b>3</b></p><div class='delta'>
+                   <span class='tag tag'>Δ Time: 35401s</span>
+                   <span class='tag ok'>SHA-256 Changed: No</span>
+                   <span class='tag ok'>Verification Changed: No</span>
+                 </div>
+                 <div class='mono' style='font-size:12px;opacity:.85'>
+                   <div>Last:     2025-11-07T13:38:23.978171900+00:00  |  540ABD3C9046EF5C6C55463CB77AEA2FB13A398E46FFDCF6B91B64C976141291  |  ok=true</div>
+                   <div>Previous: 2025-11-07T03:48:21.984840400+00:00  |  540ABD3C9046EF5C6C55463CB77AEA2FB13A398E46FFDCF6B91B64C976141291  |  ok=true</div>
+                 </div><table><tr><th>#</th><th>Timestamp</th><th>SHA-256</th><th>Size</th><th>Verified</th></tr><tr><td>1</td><td>2025-11-07T03:32:09.600476100+00:00</td><td class='mono'>540ABD3C9046EF5C6C55463CB77AEA2FB13A398E46FFDCF6B91B64C976141291</td><td>62921</td><td class='ok'>true</td></tr><tr><td>2</td><td>2025-11-07T03:48:21.984840400+00:00</td><td class='mono'>540ABD3C9046EF5C6C55463CB77AEA2FB13A398E46FFDCF6B91B64C976141291</td><td>62921</td><td class='ok'>true</td></tr><tr><td>3</td><td>2025-11-07T13:38:23.978171900+00:00</td><td class='mono'>540ABD3C9046EF5C6C55463CB77AEA2FB13A398E46FFDCF6B91B64C976141291</td><td>62921</td><td class='ok'>true</td></tr></table></div><div class='tenant'><h3>🧩 tenantB-math</h3><p>Total proofs: <b>3</b></p><div class='delta'>
+                   <span class='tag tag'>Δ Time: 35401s</span>
+                   <span class='tag ok'>SHA-256 Changed: No</span>
+                   <span class='tag ok'>Verification Changed: No</span>
+                 </div>
+                 <div class='mono' style='font-size:12px;opacity:.85'>
+                   <div>Last:     2025-11-07T13:38:23.978659500+00:00  |  540ABD3C9046EF5C6C55463CB77AEA2FB13A398E46FFDCF6B91B64C976141291  |  ok=true</div>
+                   <div>Previous: 2025-11-07T03:48:21.987131200+00:00  |  540ABD3C9046EF5C6C55463CB77AEA2FB13A398E46FFDCF6B91B64C976141291  |  ok=true</div>
+                 </div><table><tr><th>#</th><th>Timestamp</th><th>SHA-256</th><th>Size</th><th>Verified</th></tr><tr><td>1</td><td>2025-11-07T03:32:09.601699600+00:00</td><td class='mono'>540ABD3C9046EF5C6C55463CB77AEA2FB13A398E46FFDCF6B91B64C976141291</td><td>62921</td><td class='ok'>true</td></tr><tr><td>2</td><td>2025-11-07T03:48:21.987131200+00:00</td><td class='mono'>540ABD3C9046EF5C6C55463CB77AEA2FB13A398E46FFDCF6B91B64C976141291</td><td>62921</td><td class='ok'>true</td></tr><tr><td>3</td><td>2025-11-07T13:38:23.978659500+00:00</td><td class='mono'>540ABD3C9046EF5C6C55463CB77AEA2FB13A398E46FFDCF6B91B64C976141291</td><td>62921</td><td class='ok'>true</td></tr></table></div>
+  <br/>
+  <p style="opacity:.7">🔒 All records minted from per-tenant sled state. SHA changes highlight module mutations between last two runs.</p>
+</body>
+</html>

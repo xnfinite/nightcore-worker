@@ -12,12 +12,13 @@ use std::{
     sync::Once,
     io::Read,
 };
-use chrono::Local;
+use chrono::{Local, Utc};
+use nc_state::TenantState; // ✅ persistent sled state per tenant
 
 static INIT_LOG: Once = Once::new();
 
 /// ===========================================================
-/// Night Core™ v38 — Verify + Proof Mode (with Git metadata)
+/// Night Core™ v38-Pro — Verify + Proof + Persistent Audit
 /// ===========================================================
 
 /// 🔍 Environment verification
@@ -65,7 +66,7 @@ pub fn ensure_pubkey_sync(tenant_dir: &str, tenant_name: &str) -> Result<()> {
     Ok(())
 }
 
-/// ✅ Verify Ed25519 signature + SHA-256 integrity
+/// ✅ Verify Ed25519 signature + SHA-256 integrity + persistent proof log
 pub fn verify_and_run(dir: &Path, proof: bool) -> Result<String> {
     let module_path = dir.join("module.wasm");
     let sig_path = dir.join("module.sig");
@@ -73,6 +74,13 @@ pub fn verify_and_run(dir: &Path, proof: bool) -> Result<String> {
 
     let module_bytes = fs::read(&module_path)
         .with_context(|| format!("reading {:?}", module_path))?;
+
+    let tenant_name = dir.file_name()
+        .map(|s| s.to_string_lossy().into_owned())
+        .unwrap_or_else(|| "unknown".to_string());
+
+    // ✅ Persistent sled state
+    let state = TenantState::open(".", &tenant_name)?;
 
     // Decode signature
     let sig_bytes_vec = STANDARD
@@ -93,23 +101,45 @@ pub fn verify_and_run(dir: &Path, proof: bool) -> Result<String> {
     let vk = VerifyingKey::from_bytes(&pub_bytes)
         .with_context(|| "invalid verifying key")?;
 
-    // Verify
-    vk.verify(&module_bytes, &sig)
-        .with_context(|| format!("signature verification failed for {}", dir.display()))?;
-
-    // Compute SHA
+    // Verify signature and record outcome
     let sha_hex = format!("{:X}", Sha256::digest(&module_bytes));
+    let mut verified = false;
 
-    println!("✅ VERIFIED: {}", dir.display());
-    println!("  • Signature: OK (Ed25519)");
-    println!("  • SHA-256: {}", sha_hex);
-    println!("  • Size: {} bytes", module_bytes.len());
+    let result = vk.verify(&module_bytes, &sig);
+    match result {
+        Ok(_) => {
+            verified = true;
+            println!("✅ VERIFIED: {}", dir.display());
+            println!("  • Signature: OK (Ed25519)");
+            println!("  • SHA-256: {}", sha_hex);
+            println!("  • Size: {} bytes", module_bytes.len());
+        }
+        Err(e) => {
+            eprintln!("❌ Verification FAILED for {}: {}", dir.display(), e);
+        }
+    }
 
-    if proof {
+    // 🪶 Persist audit record for both success & failure
+    let record = serde_json::json!({
+        "sha256": sha_hex,
+        "size": module_bytes.len(),
+        "verified": verified,
+        "timestamp": Utc::now().to_rfc3339(),
+    });
+    state.put_json("last_proof", &record)?;
+    state.append_json("proof_history", &record)?;
+    println!("🪶 State recorded for tenant {}", tenant_name);
+
+    // Optional HTML proof
+    if verified && proof {
         write_proof_report(dir, &sha_hex, module_bytes.len())?;
     }
 
-    Ok(sha_hex)
+    if verified {
+        Ok(sha_hex)
+    } else {
+        Err(anyhow!("verification failed for {}", tenant_name))
+    }
 }
 
 /// ===========================================================
@@ -128,7 +158,6 @@ pub fn write_proof_report(tenant_path: &Path, sha_hex: &str, module_size: usize)
         let _ = fs::write(&log_file, "");
     });
 
-    // Safe commit hash
     let commit_hash = Command::new("git")
         .args(["rev-parse", "--short", "HEAD"])
         .output()
@@ -138,7 +167,6 @@ pub fn write_proof_report(tenant_path: &Path, sha_hex: &str, module_size: usize)
         .trim()
         .to_string();
 
-    // Basic audit digest
     let audit_data = format!("{}{}{}", tenant_path.display(), sha_hex, timestamp);
     let audit_hash = hex::encode(Sha256::digest(audit_data.as_bytes()));
 
@@ -150,7 +178,6 @@ pub fn write_proof_report(tenant_path: &Path, sha_hex: &str, module_size: usize)
         .open(&log_file)
         .with_context(|| format!("opening {:?}", log_file))?;
 
-    // Header only if new
     if file.metadata()?.len() == 0 {
         let header = format!(r#"<!-- Night Core v38 Verified Badge -->
 <p align="center">
@@ -170,7 +197,6 @@ pub fn write_proof_report(tenant_path: &Path, sha_hex: &str, module_size: usize)
         file.write_all(header.as_bytes())?;
     }
 
-    // Tenant entry
     let entry = format!(
         "<pre>✅ VERIFIED: {tenant}\n  • Signature: OK (Ed25519)\n  • SHA-256: {sha}\n  • Size: {size} bytes\n  • Commit: {commit}\n  • Audit-Hash: {audit}\n  • Timestamp: {ts}\n  • Maintainers: core-ops • system-check\n</pre>\n",
         tenant = tenant_path.display(),

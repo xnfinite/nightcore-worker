@@ -3,3 +3,29 @@
 {"message":"📦 Night Core Worker — clean MIT baseline","machine":"DESKTOP-1GPADAC","ts_utc":"2025-11-02T16:31:17.3311292Z","mode":"normal","actor":"xnfinite","commit":"5fb578a98ba38c5e690c87684ac1df9948e44859","branch":"main"}
 {"ts_utc":"2025-11-02T16:35:05.9694165Z","machine":"DESKTOP-1GPADAC","mode":"normal","message":"🔓 Night Core Pro v38.1 — licensed unlocker (AUFS verified)","actor":"xnfinite","branch":"main","commit":"365c5c7bfe9ae71ce0e831f23bed10209c79baeb"}
 {"branch":"main","machine":"DESKTOP-1GPADAC","ts_utc":"2025-11-02T16:58:01.9624437Z","mode":"normal","message":"📜 Night Core Proof Chronicle update — 2025-11-02 16:57:30 UTC","actor":"xnfinite","commit":"edf47c0871d10c73036041d34dad796199936138"}
+[2025-11-03 17:51:01 UTC] ✅ Worker→Pro Chronicle sync pushed successfully.
+[2025-11-03 17:54:55 UTC] Night Core™ Chronicle Sync — Hash Verification
+------------------------------------------------------------
+Chronicle (Worker): 456158d837646d74b81eb13fc41fc403319f01ed06ba55fdff27172bd9ff3e0c
+Chronicle (Pro)    : 456158d837646d74b81eb13fc41fc403319f01ed06ba55fdff27172bd9ff3e0c
+Proof (Worker)     : fdda5b80d108e8f9aaa55a7c92bdde25b5fdc2923657bac5406535ba5e784c36
+Proof (Pro)        : fdda5b80d108e8f9aaa55a7c92bdde25b5fdc2923657bac5406535ba5e784c36
+Result             : No differences
+------------------------------------------------------------
+[2025-11-03 17:59:35 UTC] Night Core™ Chronicle Sync — Hash Verification
+------------------------------------------------------------
+Chronicle (Worker): 456158d837646d74b81eb13fc41fc403319f01ed06ba55fdff27172bd9ff3e0c
+Chronicle (Pro)    : 456158d837646d74b81eb13fc41fc403319f01ed06ba55fdff27172bd9ff3e0c
+Proof (Worker)     : fdda5b80d108e8f9aaa55a7c92bdde25b5fdc2923657bac5406535ba5e784c36
+Proof (Pro)        : fdda5b80d108e8f9aaa55a7c92bdde25b5fdc2923657bac5406535ba5e784c36
+Result             : No differences
+------------------------------------------------------------
+{"mode":"normal","machine":"DESKTOP-1GPADAC","ts_utc":"2025-11-03T18:52:39.1018939Z","commit":"8eec78ab78f8dcd0cfda735547d30c153cd907ad","actor":"xnfinite","branch":"main","message":"🧩 Fixed Night Core™ Pro link and standardized README header/footer"}
+{"message":"🧩 Fixed README markdown structure and working Night Core™ Pro footer link","ts_utc":"2025-11-03T19:00:56.4742510Z","branch":"main","mode":"normal","actor":"xnfinite","machine":"DESKTOP-1GPADAC","commit":"5060627d4cc9e76dbe8de114e541bcff13a8a6a5"}
+{"machine":"DESKTOP-1GPADAC","mode":"normal","branch":"main","commit":"934e7db32cda97e786cff2e634aa2a527d09ee7f","actor":"xnfinite","message":"🧩 Fixed footer to match working header link structure","ts_utc":"2025-11-03T19:04:10.2596518Z"}
+{"machine":"DESKTOP-1GPADAC","message":"🧹 Removed redundant footer link — single Pro reference kept in header","ts_utc":"2025-11-03T19:06:23.5556543Z","branch":"main","actor":"xnfinite","commit":"b5c89faa9fae0350806be5b0f13bff7d5dd6791b","mode":"normal"}
+{"branch":"main","message":"⚙️ Added optimized release build config (.cargo/config.toml)","actor":"xnfinite","commit":"800d09232fee9a9ea2d0b94a5053302f79044ba5","ts_utc":"2025-11-03T20:23:52.8883965Z","machine":"DESKTOP-1GPADAC","mode":"normal"}
+{"actor":"xnfinite","message":"📄 Synced Chronicle from Night Core Pro (Proof v39.3)","branch":"main","commit":"111ad5cc62a2beb88ba8f5910fef52b0d466de7f","mode":"normal","ts_utc":"2025-11-05T14:58:26.1910321Z","machine":"DESKTOP-1GPADAC"}
+{"mode":"normal","machine":"DESKTOP-1GPADAC","commit":"f21b931ab1a6ae001607a8c5c840fb84bf8cf6ee","ts_utc":"2025-11-06T03:33:52.5378486Z","actor":"xnfinite","message":"📄 Updated Night Core Worker README (v38 Complete Edition)","branch":"main"}
+{"mode":"normal","message":"🚀 v38.0-stable — Verified open-core release (Night Core Worker)","commit":"63b258f1420a6e1e4547ee416927e4aa51c7f3d1","machine":"DESKTOP-1GPADAC","branch":"main","ts_utc":"2025-11-06T04:27:33.2286929Z","actor":"xnfinite"}
+{"mode":"normal","commit":"da7fde5f721fd606f44df658e4e603acbddbb2a7","branch":"main","ts_utc":"2025-11-06T04:28:53.4990834Z","actor":"xnfinite","message":"🔒 Cleaned private paths from open-core repo","machine":"DESKTOP-1GPADAC"}

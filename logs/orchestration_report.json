@@ -1,0 +1,21 @@
+{
+  "timestamp": "2025-11-07T13:38:23.951938300+00:00",
+  "tenants_executed": 2,
+  "total_time_s": 0.4185321,
+  "avg_time_s": 0.1659571,
+  "parallel_threads": 2,
+  "tenants": [
+    {
+      "name": "tenantA-hello",
+      "sha": "540ABD3C9046EF5C6C55463CB77AEA2FB13A398E46FFDCF6B91B64C976141291",
+      "duration_s": 0.165964,
+      "status": "ok"
+    },
+    {
+      "name": "tenantB-math",
+      "sha": "540ABD3C9046EF5C6C55463CB77AEA2FB13A398E46FFDCF6B91B64C976141291",
+      "duration_s": 0.1659502,
+      "status": "ok"
+    }
+  ]
+}
