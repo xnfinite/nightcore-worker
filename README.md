@@ -4,6 +4,9 @@
 Night Core™ Worker is an open-core Rust framework for securely running WebAssembly (WASM) modules in isolated sandboxes.
 It automatically discovers, verifies, and executes all trusted tenant modules under /modules, ensuring every execution is cryptographically proven.
 
+🖥️ Proof & Dashboard System (v39)
+<p align="center"> <img src="assets/nc-proof.png" alt="Night Core Proof Dashboard" width="800"/><br/> <sub><b>Night Core™ v39 — Proof Dashboard:</b> Live verification view showing Ed25519 + SHA-256 validated tenants.</sub> </p> <p align="center"> <img src="assets/nc-proof1.png" alt="Night Core Orchestration Dashboard" width="800"/><br/> <sub><b>Night Core™ v39 — Orchestration Summary:</b> Parallel tenant execution metrics and integrity status.</sub> </p> <p align="center"> <img src="assets/nc-hproof.png" alt="Night Core Historical Proof Dashboard" width="800"/><br/> <sub><b>Night Core™ v39 — Historical Proof Ledger:</b> Aggregated multi-tenant state history from <code>export-dashboard --diff</code>.</sub> </p>
+
 Night Core Worker uses:
     • 🦀 Rust for reliability & performance
     • 🔒 Ed25519 digital signatures for authenticity
