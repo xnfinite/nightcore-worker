@@ -1,54 +1,72 @@
 🔍 What Is Night Core Worker?
 ---------------------------------------------
 
-Night Core™ Worker is an open-core Rust framework for securely running WebAssembly (WASM) modules in isolated sandboxes.
+<!-- === Proof Badge Row (GitHub-safe) === -->
+<p align="center">
+  <a href="logs/nightcore_proof.html">
+    <img src="https://img.shields.io/badge/Firecracker%20Verified-v38-success?style=for-the-badge&color=0B3D91" alt="Firecracker Verified"/>
+  </a>
+  <a href="https://github.com/xnfinite/nightcore-worker/actions">
+    <img src="https://img.shields.io/badge/AUFS%20Verified-v38-success?style=for-the-badge&color=2E8B57" alt="AUFS Verified"/>
+  </a>
+  <a href="docs/legacy/Night_Core_Chronicle.md">
+    <img src="https://img.shields.io/badge/Chronicle-Proof%20Synced-blue?style=for-the-badge&color=4682B4" alt="Chronicle Synced"/>
+  </a>
+</p>
+
+Night Core™ Worker is an open-core Rust framework for securely running WebAssembly (WASM) modules in isolated sandboxes.  
 It automatically discovers, verifies, and executes all trusted tenant modules under /modules, ensuring every execution is cryptographically proven.
 
 🖥️ Proof & Dashboard System (v39)
 <p align="center"> <img src="assets/nc-proof.png" alt="Night Core Proof Dashboard" width="800"/><br/> <sub><b>Night Core™ v39 — Proof Dashboard:</b> Live verification view showing Ed25519 + SHA-256 validated tenants.</sub> </p> <p align="center"> <img src="assets/nc-proof1.png" alt="Night Core Orchestration Dashboard" width="800"/><br/> <sub><b>Night Core™ v39 — Orchestration Summary:</b> Parallel tenant execution metrics and integrity status.</sub> </p> <p align="center"> <img src="assets/nc-hproof.png" alt="Night Core Historical Proof Dashboard" width="800"/><br/> <sub><b>Night Core™ v39 — Historical Proof Ledger:</b> Aggregated multi-tenant state history from <code>export-dashboard --diff</code>.</sub> </p>
 
-Night Core Worker uses:
-    • 🦀 Rust for reliability & performance
-    • 🔒 Ed25519 digital signatures for authenticity
-    • 🧱 SHA-256 integrity hashes for tamper detection
-    • 🧩 Wasmtime 37 + WASI Preview 1 for secure sandboxing
-    • 📄 HTML + JSONL audit logs for transparency
+Night Core Worker uses:  
+ • 🦀 Rust for reliability & performance  
+ • 🔒 Ed25519 digital signatures for authenticity  
+ • 🧱 SHA-256 integrity hashes for tamper detection  
+ • 🧩 Wasmtime 37 + WASI Preview 1 for secure sandboxing  
+ • 📄 HTML + JSONL audit logs for transparency  
 
 ⸻
 
 ⚙️ Quick Start
 
-1️⃣ Clone & Build
+1️⃣ Clone & Build  
 ```bash
 git clone https://github.com/xnfinite/nightcore-worker.git
 cd nightcore-worker
 cargo +nightly build
 ```
 
-2️⃣ Generate Keys
+2️⃣ Generate Keys  
 ```bash
 cargo +nightly run -- generate-keys
 ```
 Creates Ed25519 public/private key pairs under /keys/maintainers/.
 
-3️⃣ Sign Your Modules
+3️⃣ Sign Your Modules  
 ```bash
 cargo +nightly run -- sign --dir modules/tenantA-hello --key keys/maintainers/admin1.key
+cargo +nightly run -- sign --dir modules/tenantB-math  --key keys/maintainers/admin1.key
 ```
-Generates:
-- module.sig — Ed25519 signature
-- pubkey.b64 — public key in base64
-- module.sha256 — integrity hash
+Generates:  
+- module.sig — Ed25519 signature  
+- pubkey.b64 — public key in base64  
+- module.sha256 — integrity hash  
 
-4️⃣ Run All Tenants
+4️⃣ Run All Tenants (Wasmtime Default)  
 ```bash
 cargo +nightly run -- run --all
 ```
-Automatically verifies every module signature and SHA-256 hash before sandbox execution.
-Logs are written to:
-- logs/nightcore_dashboard.html — visual audit dashboard
-- logs/orchestration_report.json — structured JSONL proof report
 
+💡 To run using **Firecracker microVM backend**, use:  
+```bash
+cargo +nightly run -- run --all --backend firecracker --vm-timeout 10
+```
+Automatically starts a verified Firecracker VM, executes Tenant A (hello) and Tenant B (math) securely, then shuts down cleanly after timeout.  
+Proof output:  
+- logs/firecracker_boot.log  
+- logs/nightcore_proof.html 
 ---
 
 🧾 Security Model
