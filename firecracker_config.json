@@ -1,0 +1,25 @@
+{
+  "boot-source": {
+    "kernel_image_path": "/var/lib/firecracker/vmlinux",
+    "boot_args": "console=ttyS0 reboot=k panic=1 pci=off root=/dev/vda rw init=/bin/true"
+  },
+  "drives": [
+    {
+      "drive_id": "rootfs",
+      "path_on_host": "/var/lib/firecracker/rootfs.ext4",
+      "is_root_device": true,
+      "is_read_only": false
+    }
+  ],
+  "machine-config": {
+    "vcpu_count": 1,
+    "mem_size_mib": 128,
+    "smt": false
+  },
+  "logger": {
+    "log_path": "/mnt/c/Users/gabeg/source/repos/nightcore-worker/logs/firecracker_boot.log",
+    "level": "Info",
+    "show_level": true,
+    "show_log_origin": false
+  }
+}
