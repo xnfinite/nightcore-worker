@@ -17,6 +17,8 @@ mod verify;
 mod aufs;
 mod sign_tenant;
 mod unlock;
+mod firecracker_adapter;
+
 
 #[derive(Parser)]
 #[command(name = "nightcore")]
@@ -28,18 +30,42 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
+    /// 🧩 Run all tenant modules or a single one
     Run {
         #[arg(long)]
         all: bool,
+
         #[arg(long)]
         proof: bool,
+
         #[arg(long, default_value_t = 0)]
         parallel: usize,
+
+        #[arg(long, default_value = "wasmtime")]
+        backend: String, // 🔥 backend selector (wasmtime | firecracker)
+
+        /// Optional path to a single tenant module
         path: Option<PathBuf>,
+
+        /// 🕒 Optional Firecracker VM timeout (seconds)
+        #[arg(long, default_value_t = 5)]
+        vm_timeout: u64, // ✅ Added safely
     },
+
     VerifyEnv,
-    Sign { #[arg(long)] dir: PathBuf, #[arg(long)] key: PathBuf },
-    Inspect { #[arg(long)] dir: PathBuf },
+
+    Sign {
+        #[arg(long)]
+        dir: PathBuf,
+        #[arg(long)]
+        key: PathBuf,
+    },
+
+    Inspect {
+        #[arg(long)]
+        dir: PathBuf,
+    },
+
     ExportPubkeyHashes,
 
     /// Build a historical HTML ledger from /state (add --diff for per-tenant deltas)
@@ -60,14 +86,21 @@ enum Commands {
     },
 
     Upgrade {
-        #[arg(short, long, default_value = "upgrades/manifests/upgrade_manifest.json")] manifest: String
+        #[arg(short, long, default_value = "upgrades/manifests/upgrade_manifest.json")]
+        manifest: String,
     },
+
     SignUpgrade {
-        #[arg(short, long, default_value = "upgrades/manifests/upgrade_manifest.json")] manifest: String,
-        #[arg(short, long, default_value = "keys/maintainers/admin1.key")] key: String,
+        #[arg(short, long, default_value = "upgrades/manifests/upgrade_manifest.json")]
+        manifest: String,
+        #[arg(short, long, default_value = "keys/maintainers/admin1.key")]
+        key: String,
     },
+
     Unlock,
 }
+
+
 
 /// ─────────────────────────────────────────────────────────────
 
@@ -110,10 +143,27 @@ fn main() -> Result<()> {
     match cli.command {
         Commands::VerifyEnv => verify::verify_environment()?,
 
-        Commands::Run { all, proof, parallel, path } => {
-            if all {
-                let start_total = Instant::now();
-                let timestamp = Utc::now().to_rfc3339();
+        Commands::Run { all, proof, parallel, backend, path, vm_timeout } => {
+
+    println!("🧭 Backend selected: {}", backend);
+
+    if backend == "firecracker" {
+    println!("🧭 Backend selected: firecracker");
+    firecracker_adapter::launch_microvm_with_timeout(
+
+        "firecracker_assets/vmlinux",
+        "firecracker_assets/rootfs.ext4",
+        vm_timeout,
+    )?;
+}
+
+
+
+    if all {
+        let start_total = Instant::now();
+        let timestamp = Utc::now().to_rfc3339();
+        
+
 
                 let modules_dir = PathBuf::from("modules");
                 let entries: Vec<_> = fs::read_dir(&modules_dir)?

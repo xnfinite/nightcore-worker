@@ -6,7 +6,7 @@ authors = ["B106 Labs"]
 license = "MIT"
 description = "Night Core — Secure multi-tenant WebAssembly orchestration framework (B106 Edition)"
 readme = "README.md"
-repository = "https://github.com/<your-username>/nightcore"
+repository = "https://github.com/xnfinite/nightcore-worker"
 keywords = ["wasm", "wasmtime", "wasi", "security", "aufs"]
 categories = ["virtualization", "webassembly", "orchestration"]
 default-run = "nightcore"
@@ -25,6 +25,7 @@ hex = "0.4"
 sha2 = "0.10"
 chrono = { version = "0.4", features = ["clock"] }
 clap = { version = "4", features = ["derive"] }
+nc_state = { path = "crates/nc_state" }
 
 # ✅ Crypto — enable rand_core feature for key generation
 ed25519-dalek = { version = "2.2.0", features = ["rand_core"] }
@@ -48,3 +49,13 @@ bincode = "1.3"
 name = "generate_maintainers"
 path = "src/generate_maintainers.rs"
 
+[workspace]
+resolver = "2"
+members = [
+  ".",                        # main nightcore binary
+  "crates/nc-exec",
+  "crates/nc-exec-wasmtime",
+  "crates/nc-exec-cli",
+  "crates/nc-exec-firecracker",
+  "crates/nc_state"
+]
