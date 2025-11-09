@@ -1,34 +1,25 @@
-﻿# Rust / Cargo
+# Night Core safe .gitignore
 target/
 **/*.rs.bk
-
-# IDE / editor
 .vscode/
 .idea/
 *.iml
-
-# OS junk
 .DS_Store
 Thumbs.db
-
-# Night Core outputs
 logs/
 modules/*/sandbox/
-
-# Binaries
 *.exe
 *.dll
 *.pdb
 *.lib
 *.exp
-
-# Optional: keep module artifacts out if you rebuild them
-# modules/*/module.wasm
-# modules/*/module.sig
-
 keys/
+licenses/
+proofs/
 license_unlock.key
-upgrades/signatures/
-keys/
-license_unlock.key
+device.id
+firecracker.tgz
+release-v1.9.0-x86_64/
+firecracker_assets/
+state/
 upgrades/signatures/
